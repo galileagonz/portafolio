@@ -1,10 +1,10 @@
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Marquee } from "@/components/motion/Marquee";
-import { RevealText } from "@/components/motion/RevealText";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { Hero } from "@/components/sections/hero/Hero";
 import { Section } from "@/components/ui/Section";
-import { Blob, Circle, Sparkle, Squiggle, Star } from "@/components/ui/Shapes";
-import { profile, sections, ui } from "@/data/content";
+import { Circle, Star } from "@/components/ui/Shapes";
+import { sections, ui } from "@/data/content";
 
 const swatches = [
   { name: "Lila", hex: "#B79CFF", className: "bg-lila" },
@@ -21,34 +21,7 @@ const section = (id: (typeof sections)[number]["id"]) => sections.find((s) => s.
 export default function Home() {
   return (
     <>
-      <section
-        id="inicio"
-        aria-labelledby="inicio-title"
-        tabIndex={-1}
-        className="relative overflow-hidden px-4 pt-32 pb-20 sm:px-8 md:pt-44"
-      >
-        <Blob className="absolute -top-16 -right-20 w-64 animate-float text-lila sm:w-96" variant={0} />
-        <Star className="absolute top-28 left-4 w-14 animate-spin-slow text-sun sm:w-20" outlined />
-        <Sparkle className="absolute right-[12%] bottom-10 w-12 animate-float text-sky [animation-delay:-2s]" outlined />
-        <div className="relative mx-auto max-w-7xl">
-          <p className="mb-6 font-mono text-label font-bold uppercase text-accent">{`// ${profile.role}`}</p>
-          <RevealText
-            as="h1"
-            id="inicio-title"
-            trigger="mount"
-            text={profile.heroPhrase}
-            className="font-display text-display font-extrabold"
-          />
-          <Squiggle className="mt-4 w-48 text-violet sm:w-72" />
-          <div className="mt-10 flex flex-wrap gap-5">
-            <MagneticButton tone="sun" href="#contacto">
-              {ui.headerCta}
-            </MagneticButton>
-          </div>
-        </div>
-      </section>
-
-      <Marquee items={["Full stack", "Freelance", "Diseño + código", "Ideas con chispa"]} tilt={-2} />
+      <Hero />
 
       <Section id="sobre-mi" eyebrow={section("sobre-mi").label} title={section("sobre-mi").title!}>
         <ul className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">

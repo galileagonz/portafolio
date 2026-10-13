@@ -12,6 +12,13 @@
   }
 }
 
+/* Touch-first devices without hover (phones, tablets) */
+@custom-variant touch {
+  @media (hover: none) {
+    @slot;
+  }
+}
+
 /* Light theme tokens (default) */
 :root {
   color-scheme: light;
@@ -89,6 +96,9 @@
 
 @theme {
   /* Fluid type scale, mobile-first */
+  --text-name: clamp(2.75rem, 14vw, 10.5rem);
+  --text-name--line-height: 0.95;
+  --text-name--letter-spacing: -0.03em;
   --text-mega: clamp(3.5rem, 1.5rem + 13vw, 13rem);
   --text-mega--line-height: 0.85;
   --text-mega--letter-spacing: -0.04em;
@@ -111,6 +121,31 @@
   --animate-float: float 6s ease-in-out infinite;
   --animate-spin-slow: spin 18s linear infinite;
   --animate-wobble: wobble 8s ease-in-out infinite;
+  --animate-letter-wave: letter-wave 2.8s ease-in-out infinite both;
+  --animate-scroll-dot: scroll-dot 1.6s ease-in-out infinite;
+
+  /* Uses translate so it stacks with Motion transforms */
+  @keyframes letter-wave {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -0.1em;
+    }
+  }
+
+  @keyframes scroll-dot {
+    0% {
+      translate: 0 0;
+      opacity: 1;
+    }
+    80%,
+    100% {
+      translate: 0 16px;
+      opacity: 0;
+    }
+  }
 
   @keyframes float {
     0%,

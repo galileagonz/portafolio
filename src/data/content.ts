@@ -11,6 +11,8 @@ export type NavSection = {
 };
 
 export type Profile = {
+  firstName: string;
+  lastNames: string;
   name: string;
   shortName: string;
   role: string;
@@ -88,12 +90,32 @@ export type Language = {
   written: string;
 };
 
+export type CtaLink = {
+  label: string;
+  href: string;
+};
+
+export type Hero = {
+  roles: string[];
+  availability: string;
+  primaryCta: CtaLink;
+  secondaryCta: CtaLink;
+  scrollHint: string;
+  // Completes the scroll link name for screen readers
+  scrollHintTarget: string;
+};
+
 // Fill these with your Spotify URLs; empty hides them
 export const SPOTIFY_PROFILE_URL = "";
 export const SPOTIFY_PLAYLIST_URL = "";
 
+const firstName = "Alexandra";
+const lastNames = "Galilea González Arias";
+
 export const profile: Profile = {
-  name: "Alexandra Galilea González Arias",
+  firstName,
+  lastNames,
+  name: `${firstName} ${lastNames}`,
   shortName: "Galilea",
   role: "Desarrolladora full stack y freelancer",
   heroPhrase: "Construyo la web completa: del servidor al último píxel.",
@@ -131,7 +153,17 @@ export const ui = {
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   marqueePause: "Pausar marquesina",
+  rolesPause: "Pausar roles",
   newTab: "(se abre en una pestaña nueva)",
+};
+
+export const hero: Hero = {
+  roles: ["Desarrolladora full stack", "Freelancer", "Creadora de experiencias web"],
+  availability: "Disponible para proyectos freelance",
+  primaryCta: { label: "Ver proyectos", href: "#proyectos" },
+  secondaryCta: { label: "Hablemos", href: "#contacto" },
+  scrollHint: "Desliza",
+  scrollHintTarget: "hacia Sobre mí",
 };
 
 export const services: Service[] = [
@@ -330,3 +362,8 @@ export const certifications: Certification[] = [
 ];
 
 export const languages: Language[] = [{ name: "Inglés", spoken: "A2", written: "B1" }];
+
+// Technical skills only, for the hero marquee
+export const techStack: string[] = skills
+  .filter((group) => group.category !== "Personales")
+  .flatMap((group) => group.items);
