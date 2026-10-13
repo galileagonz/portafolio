@@ -95,6 +95,9 @@
   --text-display: clamp(2.75rem, 1.5rem + 7vw, 7.5rem);
   --text-display--line-height: 0.9;
   --text-display--letter-spacing: -0.03em;
+  --text-menu: clamp(2.5rem, 1rem + 9vw, 5.5rem);
+  --text-menu--line-height: 1.1;
+  --text-menu--letter-spacing: -0.02em;
   --text-title: clamp(1.75rem, 1.2rem + 3vw, 3.75rem);
   --text-title--line-height: 1;
   --text-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);

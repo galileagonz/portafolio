@@ -9,6 +9,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
+import { ui } from "@/data/content";
 
 const MotionLink = motion.create(Link);
 
@@ -24,9 +25,15 @@ const tones: Record<Tone, string> = {
   surface: "bg-surface text-ink",
 };
 
+const sizes = {
+  md: "min-h-12 px-7 py-3 text-lg shadow-hard hover:shadow-hard-lg active:translate-x-1.5 active:translate-y-1.5",
+  sm: "min-h-11 px-5 py-2 text-base shadow-hard-sm hover:shadow-hard active:translate-x-[3px] active:translate-y-[3px]",
+};
+
 type MagneticButtonProps = {
   children: ReactNode;
   tone?: Tone;
+  size?: keyof typeof sizes;
   // Internal paths use next/link so basePath is applied
   href?: string;
   external?: boolean;
@@ -40,6 +47,7 @@ type MagneticButtonProps = {
 export function MagneticButton({
   children,
   tone = "sun",
+  size = "md",
   href,
   external = false,
   onClick,
@@ -68,7 +76,7 @@ export function MagneticButton({
     y.set(0);
   }
 
-  const classes = `inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-3 border-line px-7 py-3 font-display text-lg font-bold shadow-hard transition-[translate,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-1.5 active:translate-y-1.5 active:shadow-none ${tones[tone]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-full border-3 border-line font-display font-bold transition-[translate,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none ${sizes[size]} ${tones[tone]} ${className}`;
 
   const shared = {
     className: classes,
@@ -99,7 +107,7 @@ export function MagneticButton({
         {...shared}
       >
         {label}
-        {external && <span className="sr-only"> (se abre en una pestaña nueva)</span>}
+        {external && <span className="sr-only"> {ui.newTab}</span>}
       </motion.a>
     );
   }

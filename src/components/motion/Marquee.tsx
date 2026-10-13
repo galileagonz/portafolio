@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "motion/react";
 import { Star } from "@/components/ui/Shapes";
+import { ui } from "@/data/content";
 
 type Tone = "sun" | "lila" | "violet" | "sky" | "leaf" | "ink";
 
@@ -92,7 +93,7 @@ export function Marquee({
         aria-pressed={paused}
         className="absolute top-1/2 right-2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border-2 border-on-accent bg-surface text-ink motion-reduce:hidden"
       >
-        <span className="sr-only">Pausar marquesina</span>
+        <span className="sr-only">{ui.marqueePause}</span>
         <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" className="size-4" fill="currentColor">
           {paused ? <path d="M4 2.5v11l9-5.5z" /> : <path d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z" />}
         </svg>

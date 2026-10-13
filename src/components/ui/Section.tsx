@@ -32,6 +32,7 @@ export function Section({ id, title, eyebrow, tone = "default", children, classN
     <section
       id={id}
       aria-labelledby={titleId}
+      tabIndex={-1}
       className={`relative scroll-mt-20 overflow-hidden px-4 py-20 sm:px-8 md:py-32 ${block} ${className}`}
     >
       <div className="relative mx-auto max-w-7xl">

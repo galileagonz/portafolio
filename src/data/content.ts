@@ -118,6 +118,22 @@ export const sections: NavSection[] = [
   { id: "contacto", label: "Contacto", title: "Hablemos" },
 ];
 
+// Interface strings: navigation, buttons and screen-reader labels
+export const ui = {
+  skipLink: "Saltar al contenido",
+  monogram: "AG",
+  homeLabel: "Alexandra Galilea González, ir al inicio",
+  navLabel: "Principal",
+  menuLabel: "Menú",
+  menuOpen: "Abrir menú",
+  menuClose: "Cerrar menú",
+  headerCta: "Hablemos",
+  themeToDark: "Activar tema oscuro",
+  themeToLight: "Activar tema claro",
+  marqueePause: "Pausar marquesina",
+  newTab: "(se abre en una pestaña nueva)",
+};
+
 export const services: Service[] = [
   {
     title: "Sitios web y landing pages a la medida",
