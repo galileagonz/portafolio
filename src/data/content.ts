@@ -153,6 +153,15 @@ export const ui = {
   projectLinks: "Enlaces",
   projectDemo: "Ver demo",
   projectRepo: "Ver código",
+  cvDownload: "Descargar CV (PDF)",
+  cvExperience: "Experiencia",
+  cvEducation: "Educación",
+  cvCertifications: "Certificaciones",
+  cvSkills: "Habilidades",
+  cvLanguages: "Idiomas",
+  cvStrengths: "Fortalezas",
+  cvSpoken: "hablado",
+  cvWritten: "escrito",
 };
 
 export const hero: Hero = {
@@ -322,19 +331,18 @@ export const skills: SkillGroup[] = [
     category: "Móvil",
     items: ["Kotlin", "Jetpack Compose"],
   },
-  {
-    category: "Personales",
-    items: [
-      "Optimista",
-      "Detallista",
-      "Con iniciativa",
-      "Responsable",
-      "Honesta",
-      "Solidaria",
-      "Trabajo en equipo",
-      "Capacidad de analizar información técnica",
-    ],
-  },
+];
+
+// Personal strengths, shown as plain text (not chips)
+export const strengths: string[] = [
+  "Optimista",
+  "Detallista",
+  "Con iniciativa",
+  "Responsable",
+  "Honesta",
+  "Solidaria",
+  "Trabajo en equipo",
+  "Capacidad de analizar información técnica",
 ];
 
 export const certifications: Certification[] = [

@@ -24,12 +24,30 @@ type ButtonLinkProps = {
   variant?: Variant;
   size?: keyof typeof sizes;
   external?: boolean;
+  // File download from public/; pass href through withBasePath()
+  download?: boolean;
   className?: string;
 };
 
 // Button-styled link; app paths go through next/link for basePath
-export function ButtonLink({ href, children, variant = "primary", size = "md", external = false, className = "" }: ButtonLinkProps) {
+export function ButtonLink({
+  href,
+  children,
+  variant = "primary",
+  size = "md",
+  external = false,
+  download = false,
+  className = "",
+}: ButtonLinkProps) {
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
+
+  if (download) {
+    return (
+      <a href={href} download className={classes}>
+        {children}
+      </a>
+    );
+  }
 
   if (external) {
     return (
