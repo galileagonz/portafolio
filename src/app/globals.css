@@ -120,6 +120,31 @@
   -webkit-box-decoration-break: clone;
 }
 
+/* Marker that sweeps in once; reduced motion shows it already drawn */
+@utility marker-draw {
+  background-color: transparent;
+  background-image: linear-gradient(var(--sun), var(--sun));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: var(--on-accent);
+  padding-inline: 0.2em;
+  border-radius: 0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: marker-draw 500ms ease-out 800ms both;
+  }
+}
+
+/* Text turns dark as the yellow fills behind it */
+@keyframes marker-draw {
+  from {
+    background-size: 0% 100%;
+    color: var(--ink);
+  }
+}
+
 @layer base {
   html {
     background-color: var(--bg);

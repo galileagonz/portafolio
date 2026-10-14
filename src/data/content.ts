@@ -95,7 +95,9 @@ export type CtaLink = {
 };
 
 export type Hero = {
-  roles: string[];
+  eyebrow: string;
+  // Words inside profile.heroPhrase drawn with the yellow marker
+  highlight: string;
   availability: string;
   primaryCta: CtaLink;
   secondaryCta: CtaLink;
@@ -142,14 +144,14 @@ export const ui = {
   menuLabel: "Menú",
   menuOpen: "Abrir menú",
   menuClose: "Cerrar menú",
-  headerCta: "Hablemos",
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   newTab: "(se abre en una pestaña nueva)",
 };
 
 export const hero: Hero = {
-  roles: ["Desarrolladora full stack", "Freelancer", "Creadora de experiencias web"],
+  eyebrow: "Desarrolladora full stack · Freelancer",
+  highlight: "la web completa",
   availability: "Disponible para proyectos freelance",
   primaryCta: { label: "Ver proyectos", href: "#proyectos" },
   secondaryCta: { label: "Hablemos", href: "#contacto" },

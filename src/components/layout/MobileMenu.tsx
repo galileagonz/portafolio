@@ -15,6 +15,9 @@ type MobileMenuProps = {
   returnFocusTo: RefObject<HTMLButtonElement | null>;
 };
 
+// Same links as the desktop nav; the monogram covers "Inicio"
+const navLinks = sections.filter((s) => s.id !== "inicio");
+
 // Full-screen modal menu with large section links
 export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuProps) {
   const reduce = useReducedMotion();
@@ -35,7 +38,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
   // Closes the menu if the viewport grows to desktop size
   useEffect(() => {
     if (!open) return;
-    const mq = window.matchMedia("(min-width: 64rem)");
+    const mq = window.matchMedia("(min-width: 48rem)");
     const handle = () => mq.matches && onClose();
     mq.addEventListener("change", handle);
     return () => mq.removeEventListener("change", handle);
@@ -117,11 +120,11 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
 
             <nav aria-label={ui.navLabel} className="mt-10 flex-1 px-4 sm:px-8">
               <ul className="space-y-2">
-                {sections.map((section, i) => {
+                {navLinks.map((section, i) => {
                   const isActive = active === section.id;
                   return (
                     <li key={section.id}>
-                      {/* Active link keeps its underline, so color isn't the only cue */}
+                      {/* Active link keeps a thin yellow underline */}
                       <a
                         href={`#${section.id}`}
                         onClick={handleNavigate}
@@ -133,7 +136,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
                         </span>
                         <span
                           className={`underline decoration-2 underline-offset-8 transition-colors duration-200 ${
-                            isActive ? "decoration-violet" : "decoration-transparent hover:decoration-current"
+                            isActive ? "decoration-sun" : "decoration-transparent hover:decoration-current"
                           }`}
                         >
                           {section.label}
