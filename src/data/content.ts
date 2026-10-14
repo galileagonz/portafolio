@@ -147,6 +147,12 @@ export const ui = {
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   newTab: "(se abre en una pestaña nueva)",
+  projectRole: "Mi rol",
+  projectAchievements: "Logros",
+  projectStack: "Tecnologías",
+  projectLinks: "Enlaces",
+  projectDemo: "Ver demo",
+  projectRepo: "Ver código",
 };
 
 export const hero: Hero = {
