@@ -1,8 +1,8 @@
 // Single source of truth for all site copy (Spanish)
 
-export type AccentTone = "lila" | "violet" | "sky" | "leaf" | "sun";
+export type AccentTone = "lila" | "violet" | "sun";
 
-export type SectionId = "inicio" | "sobre-mi" | "servicios" | "proyectos" | "cv" | "contacto";
+export type SectionId = "inicio" | "proyectos" | "cv" | "sobre-mi" | "contacto";
 
 export type NavSection = {
   id: SectionId;
@@ -25,7 +25,6 @@ export type Contact = {
   github: string;
   linkedin: string;
   spotifyProfile: string;
-  spotifyPlaylist: string;
   // Path inside public/; wrap with withBasePath() when linking
   cv: string;
 };
@@ -100,14 +99,10 @@ export type Hero = {
   availability: string;
   primaryCta: CtaLink;
   secondaryCta: CtaLink;
-  scrollHint: string;
-  // Completes the scroll link name for screen readers
-  scrollHintTarget: string;
 };
 
-// Fill these with your Spotify URLs; empty hides them
+// Fill with your Spotify profile URL; empty hides it
 export const SPOTIFY_PROFILE_URL = "";
-export const SPOTIFY_PLAYLIST_URL = "";
 
 const firstName = "Alexandra";
 const lastNames = "Galilea González Arias";
@@ -127,16 +122,14 @@ export const contact: Contact = {
   github: "https://github.com/galileagonz",
   linkedin: "https://www.linkedin.com/in/alexandra-galilea-gonz%C3%A1lez-arias-b06584311",
   spotifyProfile: SPOTIFY_PROFILE_URL,
-  spotifyPlaylist: SPOTIFY_PLAYLIST_URL,
   cv: "/Alexandra_CV.pdf",
 };
 
 export const sections: NavSection[] = [
   { id: "inicio", label: "Inicio" },
-  { id: "sobre-mi", label: "Sobre mí", title: "Detrás del código" },
-  { id: "servicios", label: "Servicios", title: "Cómo puedo ayudarte" },
   { id: "proyectos", label: "Proyectos", title: "Lo que he construido" },
   { id: "cv", label: "CV", title: "Mi camino" },
+  { id: "sobre-mi", label: "Sobre mí", title: "Detrás del código" },
   { id: "contacto", label: "Contacto", title: "Hablemos" },
 ];
 
@@ -152,8 +145,6 @@ export const ui = {
   headerCta: "Hablemos",
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
-  marqueePause: "Pausar marquesina",
-  rolesPause: "Pausar roles",
   newTab: "(se abre en una pestaña nueva)",
 };
 
@@ -162,8 +153,6 @@ export const hero: Hero = {
   availability: "Disponible para proyectos freelance",
   primaryCta: { label: "Ver proyectos", href: "#proyectos" },
   secondaryCta: { label: "Hablemos", href: "#contacto" },
-  scrollHint: "Desliza",
-  scrollHintTarget: "hacia Sobre mí",
 };
 
 export const services: Service[] = [
@@ -201,7 +190,7 @@ export const services: Service[] = [
       "CDN y protección con Cloudflare",
     ],
     tech: ["VPS", "Docker", "Cloudflare", "SSL", "DNS"],
-    tone: "sky",
+    tone: "violet",
   },
   {
     title: "Migración de sitios",
@@ -213,7 +202,7 @@ export const services: Service[] = [
       "Verificación de que todo siga funcionando",
     ],
     tech: ["WordPress headless", "Next.js", "Cloudflare"],
-    tone: "leaf",
+    tone: "lila",
   },
   {
     title: "Apps móviles Android",
@@ -282,7 +271,7 @@ export const projects: Project[] = [
       "Desplegué el frontend en Cloudflare.",
     ],
     links: { demo: "", repo: "" },
-    tone: "sky",
+    tone: "lila",
   },
   {
     title: "Apps Android",
@@ -291,7 +280,7 @@ export const projects: Project[] = [
     stack: ["Kotlin", "Jetpack Compose"],
     achievements: ["Interfaces modernas con Jetpack Compose.", "Consumo de APIs desde la app."],
     links: { demo: "", repo: "" },
-    tone: "leaf",
+    tone: "violet",
   },
 ];
 
@@ -362,8 +351,3 @@ export const certifications: Certification[] = [
 ];
 
 export const languages: Language[] = [{ name: "Inglés", spoken: "A2", written: "B1" }];
-
-// Technical skills only, for the hero marquee
-export const techStack: string[] = skills
-  .filter((group) => group.category !== "Personales")
-  .flatMap((group) => group.items);

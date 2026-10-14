@@ -23,22 +23,21 @@
 :root {
   color-scheme: light;
 
-  --bg: #fbf8ff;
+  --bg: #fbf9ff;
   --surface: #ffffff;
-  --ink: #17143a;
-  --ink-muted: #4e4878;
-  --accent-text: #7c4dff;
-  --line: #17143a;
-  --shadow-color: #17143a;
+  --ink: #1e1433;
+  --ink-muted: #5b4b7a;
+  --line: #e3d9ff;
+  --lila-soft: #ede6ff;
+  --accent-text: #4c2a9e;
   --focus: #7c4dff;
 
   /* Accents are shared by both themes */
   --lila: #b79cff;
-  --violet: #8e6aff;
-  --sky: #8edbff;
-  --leaf: #86e3a3;
+  --violet: #7c4dff;
   --sun: #ffd84d;
-  --on-accent: #17143a;
+  --on-accent: #1e1433;
+  --on-violet: #ffffff;
 }
 
 /* Dark theme tokens, shared by system preference and manual choice */
@@ -46,13 +45,13 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --bg: #0d0b1e;
-    --surface: #17143a;
-    --ink: #f4f1ff;
-    --ink-muted: #bcb4e6;
+    --bg: #110c20;
+    --surface: #1b1432;
+    --ink: #f4f0ff;
+    --ink-muted: #b8a9d9;
+    --line: #33275c;
+    --lila-soft: #2a2050;
     --accent-text: #b79cff;
-    --line: #f4f1ff;
-    --shadow-color: #b79cff;
     --focus: #ffd84d;
   }
 }
@@ -60,13 +59,13 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #0d0b1e;
-  --surface: #17143a;
-  --ink: #f4f1ff;
-  --ink-muted: #bcb4e6;
+  --bg: #110c20;
+  --surface: #1b1432;
+  --ink: #f4f0ff;
+  --ink-muted: #b8a9d9;
+  --line: #33275c;
+  --lila-soft: #2a2050;
   --accent-text: #b79cff;
-  --line: #f4f1ff;
-  --shadow-color: #b79cff;
   --focus: #ffd84d;
 }
 
@@ -75,97 +74,50 @@
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
-  --color-accent: var(--accent-text);
   --color-line: var(--line);
+  --color-lila-soft: var(--lila-soft);
+  --color-accent: var(--accent-text);
   --color-lila: var(--lila);
   --color-violet: var(--violet);
-  --color-sky: var(--sky);
-  --color-leaf: var(--leaf);
   --color-sun: var(--sun);
   --color-on-accent: var(--on-accent);
+  --color-on-violet: var(--on-violet);
 
   --font-display: var(--font-syne);
   --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-space-mono);
-
-  /* Hard offset shadows for the sticker look */
-  --shadow-hard-sm: 3px 3px 0 0 var(--shadow-color);
-  --shadow-hard: 6px 6px 0 0 var(--shadow-color);
-  --shadow-hard-lg: 10px 10px 0 0 var(--shadow-color);
 }
 
 @theme {
-  /* Fluid type scale, mobile-first */
-  --text-name: clamp(2.75rem, 14vw, 10.5rem);
-  --text-name--line-height: 0.95;
+  /* Fluid type scale, mobile-first; large but contained */
+  --text-name: clamp(2.75rem, 1.5rem + 6vw, 6.5rem);
+  --text-name--line-height: 1;
   --text-name--letter-spacing: -0.03em;
-  --text-mega: clamp(3.5rem, 1.5rem + 13vw, 13rem);
-  --text-mega--line-height: 0.85;
-  --text-mega--letter-spacing: -0.04em;
-  --text-display: clamp(2.75rem, 1.5rem + 7vw, 7.5rem);
-  --text-display--line-height: 0.9;
-  --text-display--letter-spacing: -0.03em;
-  --text-menu: clamp(2.5rem, 1rem + 9vw, 5.5rem);
-  --text-menu--line-height: 1.1;
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-menu: clamp(2rem, 1.25rem + 4vw, 3rem);
+  --text-menu--line-height: 1.15;
   --text-menu--letter-spacing: -0.02em;
-  --text-title: clamp(1.75rem, 1.2rem + 3vw, 3.75rem);
-  --text-title--line-height: 1;
-  --text-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
-  --text-lead--line-height: 1.45;
+  --text-title: clamp(1.375rem, 1.1rem + 1.4vw, 2.25rem);
+  --text-title--line-height: 1.15;
+  --text-lead: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  --text-lead--line-height: 1.5;
   --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --text-body--line-height: 1.6;
   --text-label: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
   --text-label--line-height: 1.3;
   --text-label--letter-spacing: 0.12em;
+}
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-spin-slow: spin 18s linear infinite;
-  --animate-wobble: wobble 8s ease-in-out infinite;
-  --animate-letter-wave: letter-wave 2.8s ease-in-out infinite both;
-  --animate-scroll-dot: scroll-dot 1.6s ease-in-out infinite;
-
-  /* Uses translate so it stacks with Motion transforms */
-  @keyframes letter-wave {
-    0%,
-    100% {
-      translate: 0 0;
-    }
-    50% {
-      translate: 0 -0.1em;
-    }
-  }
-
-  @keyframes scroll-dot {
-    0% {
-      translate: 0 0;
-      opacity: 1;
-    }
-    80%,
-    100% {
-      translate: 0 16px;
-      opacity: 0;
-    }
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-14px) rotate(4deg);
-    }
-  }
-
-  @keyframes wobble {
-    0%,
-    100% {
-      border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
-    }
-    50% {
-      border-radius: 61% 39% 38% 62% / 55% 61% 39% 45%;
-    }
-  }
+/* Yellow highlighter behind inline text; forces dark text */
+@utility marker {
+  background-color: var(--sun);
+  color: var(--on-accent);
+  padding-inline: 0.2em;
+  border-radius: 0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 @layer base {
@@ -194,7 +146,7 @@
 
   /* Visible focus ring for every interactive element */
   :focus-visible {
-    outline: 3px solid var(--focus);
+    outline: 2px solid var(--focus);
     outline-offset: 3px;
   }
 
@@ -209,7 +161,7 @@
     }
   }
 
-  /* Stops decorative CSS loops for reduced-motion users */
+  /* Reduced motion: hover and theme changes become instant */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

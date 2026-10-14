@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, type MouseEvent, type RefObject } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { reducedFade } from "@/components/motion/transitions";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { Blob, Sparkle, Star } from "@/components/ui/Shapes";
-import { SlideText } from "@/components/ui/SlideText";
 import { contact, sections, ui, type SectionId } from "@/data/content";
 import { scrollToSection } from "@/lib/scroll";
 import { Monogram } from "./Monogram";
@@ -17,9 +15,7 @@ type MobileMenuProps = {
   returnFocusTo: RefObject<HTMLButtonElement | null>;
 };
 
-const ease: [number, number, number, number] = [0.7, 0, 0.3, 1];
-
-// Full-screen modal menu with giant staggered links
+// Full-screen modal menu with large section links
 export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuProps) {
   const reduce = useReducedMotion();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -66,24 +62,12 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
     onClose();
   }
 
-  // Circle wipe from the menu button; reduced motion only fades
-  const panel = reduce
-    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: reducedFade }
-    : {
-        initial: { clipPath: "circle(0% at 92% 2.5rem)" },
-        animate: { clipPath: "circle(150% at 92% 2.5rem)" },
-        exit: { clipPath: "circle(0% at 92% 2.5rem)" },
-        transition: { duration: 0.6, ease },
-      };
-
-  const list: Variants = {
-    hidden: {},
-    visible: { transition: { delayChildren: reduce ? 0 : 0.25, staggerChildren: reduce ? 0 : 0.07 } },
-  };
-
-  const item: Variants = {
-    hidden: { opacity: 0, y: "90%", rotate: 4 },
-    visible: { opacity: 1, y: 0, rotate: 0, transition: reduce ? reducedFade : { duration: 0.6, ease } },
+  // Plain fade in and out
+  const panel = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+    transition: reduce ? reducedFade : { duration: 0.25, ease: "easeOut" as const },
   };
 
   return (
@@ -103,13 +87,9 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
           <motion.div
             key="panel"
             {...panel}
-            className="relative flex min-h-dvh flex-col overflow-hidden bg-bg px-3 pt-3 pb-10 sm:px-6 sm:pt-4"
+            className="flex min-h-dvh flex-col bg-bg pb-10"
           >
-            <Blob className="absolute -right-24 -bottom-24 w-80 animate-float text-violet" variant={1} />
-            <Star className="absolute bottom-40 left-[-1.5rem] w-20 animate-spin-slow text-sun" outlined />
-            <Sparkle className="absolute top-28 right-8 w-10 animate-float text-sky [animation-delay:-3s]" outlined />
-
-            <div className="relative flex items-center justify-between gap-4 rounded-full border-3 border-line bg-surface p-1.5 shadow-hard">
+            <div className="flex h-16 items-center justify-between gap-4 border-b border-line px-4 sm:px-8">
               <Monogram onClick={handleNavigate} />
               <div className="flex items-center gap-2">
                 <ThemeToggle />
@@ -117,16 +97,16 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
                   ref={closeButton}
                   type="button"
                   onClick={onClose}
-                  className="group inline-flex size-11 items-center justify-center rounded-full border-3 border-line bg-lila text-on-accent shadow-hard-sm transition-[translate,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
+                  className="inline-flex size-10 items-center justify-center rounded-full border border-line text-ink transition-colors duration-200 hover:bg-lila-soft"
                 >
                   <span className="sr-only">{ui.menuClose}</span>
                   <svg
                     aria-hidden="true"
                     focusable="false"
                     viewBox="0 0 24 24"
-                    className="size-5 transition-transform duration-300 group-hover:rotate-90"
+                    className="size-4"
                     stroke="currentColor"
-                    strokeWidth="3"
+                    strokeWidth="2"
                     strokeLinecap="round"
                   >
                     <path d="M5 5l14 14M19 5L5 19" />
@@ -135,34 +115,39 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
               </div>
             </div>
 
-            <nav aria-label={ui.navLabel} className="relative mt-10 flex-1">
-              <motion.ul variants={list} initial="hidden" animate="visible">
+            <nav aria-label={ui.navLabel} className="mt-10 flex-1 px-4 sm:px-8">
+              <ul className="space-y-2">
                 {sections.map((section, i) => {
                   const isActive = active === section.id;
                   return (
                     <li key={section.id}>
-                      <motion.a
-                        variants={item}
+                      {/* Active link keeps its underline, so color isn't the only cue */}
+                      <a
                         href={`#${section.id}`}
                         onClick={handleNavigate}
                         aria-current={isActive ? "location" : undefined}
-                        className="group flex items-baseline gap-3 rounded-2xl py-1 font-display text-menu font-extrabold"
+                        className="flex items-baseline gap-4 py-1 font-display text-menu font-bold"
                       >
-                        <span className="w-7 shrink-0 font-mono text-label font-bold text-ink-muted">
+                        <span className="w-7 shrink-0 font-mono text-label text-ink-muted">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <SlideText text={section.label} />
-                        {isActive && <Star className="size-6 shrink-0 self-center text-sun" points={5} outlined />}
-                      </motion.a>
+                        <span
+                          className={`underline decoration-2 underline-offset-8 transition-colors duration-200 ${
+                            isActive ? "decoration-violet" : "decoration-transparent hover:decoration-current"
+                          }`}
+                        >
+                          {section.label}
+                        </span>
+                      </a>
                     </li>
                   );
                 })}
-              </motion.ul>
+              </ul>
             </nav>
 
             <a
               href={`mailto:${contact.email}`}
-              className="relative mt-8 self-start rounded-full border-3 border-line bg-surface px-4 py-2 font-mono text-label font-bold break-all shadow-hard-sm"
+              className="mx-4 mt-8 self-start font-mono text-label break-all text-ink-muted underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-ink hover:decoration-current sm:mx-8"
             >
               {contact.email}
             </a>

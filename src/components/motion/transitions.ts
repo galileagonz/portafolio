@@ -1,15 +1,16 @@
 import type { Transition } from "motion/react";
 
-// Bouncy spring used for playful entrances
-export const springPop: Transition = {
-  type: "spring",
-  stiffness: 260,
-  damping: 18,
-  mass: 0.8,
+// Distance (px) content rises while fading in
+export const REVEAL_OFFSET = 16;
+
+// Calm ease-out used for entrances
+export const fadeUp: Transition = {
+  duration: 0.5,
+  ease: [0.22, 1, 0.36, 1],
 };
 
 // Reduced motion: transforms jump instantly, only opacity fades
 export const reducedFade: Transition = {
   default: { duration: 0 },
-  opacity: { duration: 0.4, ease: "easeOut" },
+  opacity: { duration: 0.3, ease: "easeOut" },
 };

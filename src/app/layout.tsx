@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <a
           href="#contenido"
-          className="sr-only rounded-full border-3 border-line bg-sun px-5 py-3 font-display font-bold text-on-accent shadow-hard focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60]"
+          className="sr-only rounded-full bg-sun px-5 py-3 font-display font-bold text-on-accent focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60]"
         >
           {ui.skipLink}
         </a>
