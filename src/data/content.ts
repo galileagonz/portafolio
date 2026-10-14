@@ -30,11 +30,25 @@ export type Contact = {
 };
 
 export type Service = {
+  // Stable slug used to preselect the service in the contact form
+  id: string;
   title: string;
   description: string;
   includes: string[];
   tech: string[];
   tone: AccentTone;
+};
+
+export type About = {
+  // Path inside public/ (e.g. "/foto.jpg"); empty shows the placeholder
+  photo: string;
+  photoAlt: string;
+  paragraphs: string[];
+  // Phrase inside paragraphs drawn with the yellow marker
+  highlight: string;
+  facts: string[];
+  servicesTitle: string;
+  servicesIntro: string;
 };
 
 export type Experience = {
@@ -162,6 +176,21 @@ export const ui = {
   cvStrengths: "Fortalezas",
   cvSpoken: "hablado",
   cvWritten: "escrito",
+  serviceQuote: "Cotizar",
+};
+
+// Draft copy for the about section; rewrite freely
+export const about: About = {
+  photo: "",
+  photoAlt: "Retrato de Alexandra Galilea González",
+  paragraphs: [
+    "Me encanta ver cómo una idea se convierte en algo que la gente puede usar. Disfruto cada parte del camino: pensar la base de datos, darle forma a la interfaz y dejarlo todo funcionando en producción.",
+    "Creo que la buena tecnología se siente sencilla, y trabajo para que cada proyecto se sienta así. Siempre estoy aprendiendo algo nuevo y me emociona colaborar con personas que quieren construir cosas útiles.",
+  ],
+  highlight: "la buena tecnología se siente sencilla",
+  facts: ["UNAM · 9.º semestre", "Full stack en Varsa Studio", "Cisco Cybersecurity"],
+  servicesTitle: "Trabajemos juntos",
+  servicesIntro: "Esto es lo que puedo construir contigo.",
 };
 
 export const hero: Hero = {
@@ -174,6 +203,7 @@ export const hero: Hero = {
 
 export const services: Service[] = [
   {
+    id: "sitios-web",
     title: "Sitios web y landing pages a la medida",
     description: "Páginas rápidas, accesibles y con personalidad, pensadas para que tu proyecto destaque y convierta.",
     includes: [
@@ -186,6 +216,7 @@ export const services: Service[] = [
     tone: "sun",
   },
   {
+    id: "backend-apis",
     title: "Backend y APIs",
     description: "La lógica que mueve tu producto: datos bien organizados y servicios claros para conectar tus apps.",
     includes: [
@@ -198,6 +229,7 @@ export const services: Service[] = [
     tone: "lila",
   },
   {
+    id: "produccion-hosting",
     title: "Puesta en producción y hosting",
     description: "Llevo tu proyecto del repositorio a internet, en un servidor estable y seguro.",
     includes: [
@@ -210,6 +242,7 @@ export const services: Service[] = [
     tone: "violet",
   },
   {
+    id: "migracion",
     title: "Migración de sitios",
     description: "Cambio tu sitio de casa sin perder contenido, o lo modernizo con una arquitectura headless.",
     includes: [
@@ -222,6 +255,7 @@ export const services: Service[] = [
     tone: "lila",
   },
   {
+    id: "apps-android",
     title: "Apps móviles Android",
     description: "Aplicaciones nativas con interfaces modernas que se conectan a tus servicios.",
     includes: [

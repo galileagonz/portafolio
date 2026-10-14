@@ -1,20 +1,7 @@
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { HighlightedText } from "@/components/ui/HighlightedText";
 import { hero, profile } from "@/data/content";
-
-// Wraps the first match of the keyword in an animated marker
-function HighlightedPhrase({ text, highlight }: { text: string; highlight: string }) {
-  const start = text.indexOf(highlight);
-  if (!highlight || start === -1) return text;
-
-  return (
-    <>
-      {text.slice(0, start)}
-      <mark className="marker-draw">{highlight}</mark>
-      {text.slice(start + highlight.length)}
-    </>
-  );
-}
 
 // Quiet availability note with a yellow dot
 function AvailabilityBadge({ text }: { text: string }) {
@@ -44,7 +31,7 @@ export function Hero() {
 
         <ScrollReveal delay={0.2} className="mt-8 max-w-2xl">
           <p className="text-lead">
-            <HighlightedPhrase text={profile.heroPhrase} highlight={hero.highlight} />
+            <HighlightedText text={profile.heroPhrase} highlight={hero.highlight} markerClassName="marker-draw" />
           </p>
         </ScrollReveal>
 
