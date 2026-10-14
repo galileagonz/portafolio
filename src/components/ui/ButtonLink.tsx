@@ -18,6 +18,11 @@ const sizes = {
   sm: "px-4 py-2 text-label",
 };
 
+// Shared classes so real <button>s match the link buttons
+export function buttonStyles(variant: Variant = "primary", size: keyof typeof sizes = "md") {
+  return `${base} ${variants[variant]} ${sizes[size]}`;
+}
+
 type ButtonLinkProps = {
   href: string;
   children: ReactNode;
@@ -39,7 +44,7 @@ export function ButtonLink({
   download = false,
   className = "",
 }: ButtonLinkProps) {
-  const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
+  const classes = `${buttonStyles(variant, size)} ${className}`;
 
   if (download) {
     return (

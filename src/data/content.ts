@@ -120,6 +120,9 @@ export type Hero = {
 // Fill with your Spotify profile URL; empty hides it
 export const SPOTIFY_PROFILE_URL = "";
 
+// Example Formspree endpoint; replace the ID with your real form
+export const FORMSPREE_ENDPOINT = "https://formspree.io/f/tu-id-de-formulario";
+
 const firstName = "Alexandra";
 const lastNames = "Galilea González Arias";
 
@@ -177,6 +180,46 @@ export const ui = {
   cvSpoken: "hablado",
   cvWritten: "escrito",
   serviceQuote: "Cotizar",
+  socialNav: "Redes y contacto",
+  socialGithub: "GitHub de Alexandra",
+  socialLinkedin: "LinkedIn de Alexandra",
+  socialSpotify: "Spotify de Alexandra",
+  socialEmail: "Escribir un correo a Alexandra",
+  footerMadeWith: "Hecho con Next.js",
+  backToTop: "Volver arriba",
+};
+
+// Copy for the contact section and form
+export const contactSection = {
+  intro: "¿Tienes un proyecto en mente o una vacante que encaje conmigo? Escríbeme y te respondo pronto.",
+  copyEmail: "Copiar correo:",
+  copied: "¡Copiado!",
+  copyFailed: "No se pudo copiar. Usa el enlace de abajo.",
+  mailtoLabel: "O ábrelo en tu app de correo",
+  formTitle: "Envíame un mensaje",
+  requiredNote: "Todos los campos son obligatorios.",
+  fields: {
+    name: "Nombre",
+    email: "Correo",
+    service: "Tipo de servicio",
+    message: "Mensaje",
+  },
+  servicePlaceholder: "Elige una opción",
+  serviceOther: "Otro o aún no lo sé",
+  errors: {
+    nameRequired: "Escribe tu nombre.",
+    emailRequired: "Escribe tu correo.",
+    emailInvalid: "Revisa el correo; debe verse como nombre@dominio.com.",
+    serviceRequired: "Elige un tipo de servicio.",
+    messageRequired: "Escribe tu mensaje.",
+    messageShort: "Cuéntame un poco más (al menos 10 caracteres).",
+  },
+  fixErrors: "Revisa los campos marcados.",
+  submit: "Enviar mensaje",
+  sending: "Enviando tu mensaje…",
+  success: "¡Gracias! Tu mensaje llegó. Te responderé muy pronto.",
+  error: "No se pudo enviar el mensaje.",
+  errorFallback: "Escríbeme directamente a",
 };
 
 // Draft copy for the about section; rewrite freely

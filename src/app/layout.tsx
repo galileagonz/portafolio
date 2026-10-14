@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Space_Mono, Syne } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { profile, ui } from "@/data/content";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="contenido" tabIndex={-1}>
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
