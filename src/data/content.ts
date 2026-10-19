@@ -2,7 +2,7 @@
 
 export type AccentTone = "lila" | "violet" | "sun";
 
-export type SectionId = "inicio" | "proyectos" | "cv" | "sobre-mi" | "contacto";
+export type SectionId = "proyectos" | "cv" | "sobre-mi" | "contacto";
 
 export type NavSection = {
   id: SectionId;
@@ -41,14 +41,10 @@ export type Service = {
 
 export type About = {
   // Path inside public/ (e.g. "/foto.jpg"); empty shows the placeholder
-  photo: string;
-  photoAlt: string;
   paragraphs: string[];
   // Phrase inside paragraphs drawn with the yellow marker
   highlight: string;
   facts: string[];
-  servicesTitle: string;
-  servicesIntro: string;
 };
 
 export type Experience = {
@@ -61,46 +57,65 @@ export type Experience = {
   highlights: string[];
 };
 
-export type Education = {
-  institution: string;
-  degree: string;
-  start: string;
-  end: string | null;
-  periodLabel: string;
-  detail: string;
-};
+export type ProjectStatus = "produccion" | "staging" | "academico";
 
-export type ProjectLinks = {
-  demo: string;
-  repo: string;
+export type ProjectMetric = {
+  value: string;
+  label: string;
 };
 
 export type Project = {
-  title: string;
-  summary: string;
-  role: string;
-  stack: string[];
-  achievements: string[];
-  links: ProjectLinks;
-  tone: AccentTone;
+  // Stable slug
+  id: string;
+  name: string;
+  status: ProjectStatus;
+  kind: string;
+  // Keep under ~110 characters
+  description: string;
+  role?: string;
+  challenge?: string;
+  metrics?: [ProjectMetric] | [ProjectMetric, ProjectMetric];
+  url?: string;
+  linkLabel?: string;
+  noLinkNote?: string;
+  // src is a public/ path; missing files show a placeholder
+  image: { src: string; alt: string };
 };
 
-export type SkillGroup = {
+// simple-icons available in the installed package; mapped in toolIcons.ts
+export type ToolIconId =
+  | "python"
+  | "typescript"
+  | "kotlin"
+  | "php"
+  | "html5"
+  | "css"
+  | "react"
+  | "nextdotjs"
+  | "tailwindcss"
+  | "fastapi"
+  | "nodedotjs"
+  | "express"
+  | "jetpackcompose"
+  | "git"
+  | "docker"
+  | "coolify"
+  | "digitalocean"
+  | "cloudflare"
+  | "wordpress"
+  | "mysql"
+  | "postman"
+  | "androidstudio";
+
+export type Tool = {
+  name: string;
+  // No icons renders a text-only pill
+  icons?: ToolIconId[];
+};
+
+export type ToolGroup = {
   category: string;
-  items: string[];
-};
-
-export type Certification = {
-  name: string;
-  issuer: string;
-  date: string;
-  dateLabel: string;
-};
-
-export type Language = {
-  name: string;
-  spoken: string;
-  written: string;
+  items: Tool[];
 };
 
 export type CtaLink = {
@@ -148,8 +163,7 @@ export const contact: Contact = {
 };
 
 export const sections: NavSection[] = [
-  { id: "inicio", label: "Inicio" },
-  { id: "proyectos", label: "Proyectos", title: "Lo que he construido" },
+  { id: "proyectos", label: "Proyectos", title: "Proyectos recientes" },
   { id: "cv", label: "CV", title: "Mi camino" },
   { id: "sobre-mi", label: "Sobre mí", title: "Detrás del código" },
   { id: "contacto", label: "Contacto", title: "Hablemos" },
@@ -164,26 +178,22 @@ export const ui = {
   menuLabel: "Menú",
   menuOpen: "Abrir menú",
   menuClose: "Cerrar menú",
-  headerCta: "Hablemos",
+  headerCta: "Contacto",
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   newTab: "(se abre en una pestaña nueva)",
   projectRole: "Mi rol",
-  projectAchievements: "Logros",
-  projectStack: "Tecnologías",
-  projectLinks: "Enlaces",
-  projectDemo: "Ver demo",
-  projectRepo: "Ver código",
+  projectChallenge: "Reto técnico",
+  projectMetrics: "Métricas",
+  projectVisit: "Ver sitio",
+  toolsLabel: "Herramientas que uso",
+  projectStatus: {
+    produccion: "En producción",
+    staging: "En staging",
+    academico: "Académico",
+  },
   cvDownload: "Descargar CV (PDF)",
   cvExperience: "Experiencia",
-  cvEducation: "Educación",
-  cvCertifications: "Certificaciones",
-  cvSkills: "Habilidades",
-  cvLanguages: "Idiomas",
-  cvStrengths: "Fortalezas",
-  cvSpoken: "hablado",
-  cvWritten: "escrito",
-  serviceQuote: "Cotizar",
   socialNav: "Redes y contacto",
   socialGithub: "GitHub de Alexandra",
   socialLinkedin: "LinkedIn de Alexandra",
@@ -246,16 +256,12 @@ export const contactSection = {
 
 // Draft copy for the about section; rewrite freely
 export const about: About = {
-  photo: "",
-  photoAlt: "Retrato de Alexandra Galilea González",
   paragraphs: [
     "Me encanta ver cómo una idea se convierte en algo que la gente puede usar. Disfruto cada parte del camino: pensar la base de datos, darle forma a la interfaz y dejarlo todo funcionando en producción.",
     "Creo que la buena tecnología se siente sencilla, y trabajo para que cada proyecto se sienta así. Siempre estoy aprendiendo algo nuevo y me emociona colaborar con personas que quieren construir cosas útiles.",
   ],
   highlight: "la buena tecnología se siente sencilla",
-  facts: ["UNAM · 9.º semestre", "Full stack en Varsa Studio", "Cisco Cybersecurity"],
-  servicesTitle: "Trabajemos juntos",
-  servicesIntro: "Esto es lo que puedo construir contigo.",
+  facts: ["UNAM · 9.º semestre", "Full stack en Varsa Studio"],
 };
 
 export const hero: Hero = {
@@ -349,120 +355,97 @@ export const experience: Experience[] = [
   },
 ];
 
-export const education: Education[] = [
-  {
-    institution: "UNAM",
-    degree: "Ingeniería en Computación",
-    start: "2022",
-    end: null,
-    periodLabel: "2022 – actualidad",
-    detail: "Cursando el 9.º semestre",
-  },
-];
-
 export const projects: Project[] = [
   {
-    title: "Local Things",
-    summary: "Plataforma para descubrir eventos locales.",
-    role: "Frontend y despliegue",
-    stack: ["Next.js App Router", "TypeScript", "Tailwind CSS", "FastAPI", "Docker", "Coolify"],
-    achievements: [
-      "Organicé el frontend en capas.",
-      "Construí componentes interactivos.",
-      "Reduje código repetido con hooks y componentes compartidos.",
-      "Desplegué en DigitalOcean con Docker y Coolify.",
-    ],
-    links: { demo: "", repo: "" },
-    tone: "sun",
+    id: "varsa",
+    name: "Varsa Studio",
+    status: "produccion",
+    kind: "Empresa donde trabajo",
+    description:
+      "Agencia digital donde trabajo como desarrolladora full stack: web, apps, automatización y SEO.",
+    // TODO: role and challenge pending from Alexandra
+    metrics: [{ value: "~4.6k", label: "visitas/mes" }],
+    url: "https://varsastudio.com",
+    image: { src: "/projects/varsa.webp", alt: "Página de inicio de Varsa Studio" },
   },
   {
-    title: "Lucid Locations",
-    summary: "Sitio inmobiliario que pasó a una arquitectura headless.",
-    role: "Migración, infraestructura y frontend",
-    stack: ["WordPress headless", "Next.js", "TypeScript", "Tailwind CSS", "Caddy", "PHP 8.3"],
-    achievements: [
-      "Migré el hosting de HostGator a DigitalOcean.",
-      "Configuré el servidor.",
-      "Moví las imágenes a un CDN.",
-      "Desplegué el frontend en Cloudflare.",
-    ],
-    links: { demo: "", repo: "" },
-    tone: "lila",
+    id: "lucid-locations",
+    name: "Lucid Locations",
+    status: "produccion",
+    kind: "Cliente de Varsa Studio",
+    description:
+      "Sitio inmobiliario que migré de HostGator a DigitalOcean y convertí en WordPress headless con Next.js.",
+    role: "Migración de infraestructura y frontend en Next.js, en un equipo de 3 personas.",
+    challenge:
+      "Migrar WordPress (tema Houzez), mover las imágenes a un CDN (DO Spaces) y consumir la API REST de WordPress desde Next.js.",
+    metrics: [{ value: "~5.9k", label: "visitas/mes" }],
+    url: "https://lucidlocations.com",
+    image: { src: "/projects/lucid-locations.webp", alt: "Página de inicio de Lucid Locations" },
   },
   {
-    title: "Apps Android",
-    summary: "Interfaces modernas que consumen APIs.",
-    role: "Desarrollo móvil",
-    stack: ["Kotlin", "Jetpack Compose"],
-    achievements: ["Interfaces modernas con Jetpack Compose.", "Consumo de APIs desde la app."],
-    links: { demo: "", repo: "" },
-    tone: "violet",
+    id: "local-things",
+    name: "Local Things",
+    status: "staging",
+    kind: "Proyecto interno de Varsa Studio",
+    description: "Plataforma de eventos y comunidad local, con frontend y API separados.",
+    role: "Desarrollo full stack y despliegue.",
+    challenge:
+      "Evalué modelos de OCR y visión para extraer datos de eventos desde flyers con un límite de 4 GB de RAM.",
+    url: "https://develop.localthings.io",
+    linkLabel: "Ver staging",
+    image: { src: "/projects/local-things.webp", alt: "Vista de la plataforma Local Things" },
+  },
+  {
+    id: "android-apps",
+    name: "Apps Android",
+    status: "academico",
+    kind: "Proyecto universitario",
+    // TODO: add the course name and role
+    description: "Apps desarrolladas para una materia de la universidad.",
+    image: { src: "/projects/android-apps.webp", alt: "Capturas de las apps Android" },
   },
 ];
 
-export const skills: SkillGroup[] = [
+// Tools for the Projects carousel; items without icons are not shown
+export const tools: ToolGroup[] = [
   {
-    category: "Frontend",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"],
-  },
-  {
-    category: "Backend",
-    items: ["Python", "FastAPI", "Node.js", "Express", "PHP", "Java", "SQL"],
-  },
-  {
-    category: "Infra y herramientas",
+    category: "Lenguajes",
     items: [
-      "Docker",
-      "Coolify",
-      "DigitalOcean",
-      "Cloudflare",
-      "Caddy",
-      "Git/GitHub",
-      "WordPress headless",
-      "Postman",
-      "VS Code",
-      "Android Studio",
-      "Power BI",
-      "Workbench",
+      { name: "Python", icons: ["python"] },
+      { name: "Java" },
+      { name: "TypeScript / JavaScript", icons: ["typescript"] },
+      { name: "Kotlin", icons: ["kotlin"] },
+      { name: "PHP", icons: ["php"] },
+      { name: "HTML/CSS", icons: ["html5", "css"] },
+      { name: "SQL" },
     ],
   },
   {
-    category: "Móvil",
-    items: ["Kotlin", "Jetpack Compose"],
-  },
-];
-
-// Personal strengths, shown as plain text (not chips)
-export const strengths: string[] = [
-  "Optimista",
-  "Detallista",
-  "Con iniciativa",
-  "Responsable",
-  "Honesta",
-  "Solidaria",
-  "Trabajo en equipo",
-  "Capacidad de analizar información técnica",
-];
-
-export const certifications: Certification[] = [
-  {
-    name: "Cisco Certified Support Technician Cybersecurity",
-    issuer: "Cisco",
-    date: "2024-07",
-    dateLabel: "Julio 2024",
+    category: "Frameworks y librerías",
+    items: [
+      { name: "React", icons: ["react"] },
+      { name: "Next.js", icons: ["nextdotjs"] },
+      { name: "Tailwind CSS", icons: ["tailwindcss"] },
+      { name: "FastAPI", icons: ["fastapi"] },
+      { name: "Node.js", icons: ["nodedotjs"] },
+      { name: "Express", icons: ["express"] },
+      { name: "Jetpack Compose", icons: ["jetpackcompose"] },
+    ],
   },
   {
-    name: "Introducción a la IA moderna",
-    issuer: "Cisco Networking Academy",
-    date: "2025-11",
-    dateLabel: "Noviembre 2025",
-  },
-  {
-    name: "Database Foundations",
-    issuer: "Oracle",
-    date: "2024-05",
-    dateLabel: "Mayo 2024",
+    category: "Herramientas y plataformas",
+    items: [
+      { name: "Git / GitHub", icons: ["git"] },
+      { name: "Docker / Docker Compose", icons: ["docker"] },
+      { name: "Coolify", icons: ["coolify"] },
+      { name: "DigitalOcean", icons: ["digitalocean"] },
+      { name: "Cloudflare", icons: ["cloudflare"] },
+      { name: "WordPress (Headless)", icons: ["wordpress"] },
+      { name: "MySQL Workbench", icons: ["mysql"] },
+      { name: "Power BI" },
+      { name: "Postman", icons: ["postman"] },
+      { name: "Visual Studio Code" },
+      { name: "Android Studio", icons: ["androidstudio"] },
+    ],
   },
 ];
-
-export const languages: Language[] = [{ name: "Inglés", spoken: "A2", written: "B1" }];

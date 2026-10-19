@@ -2,17 +2,7 @@ import type { ReactNode } from "react";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Section } from "@/components/ui/Section";
-import {
-  certifications,
-  contact,
-  education,
-  experience,
-  languages,
-  sections,
-  skills,
-  strengths,
-  ui,
-} from "@/data/content";
+import { contact, experience, sections, ui } from "@/data/content";
 import { withBasePath } from "@/lib/paths";
 
 const meta = sections.find((s) => s.id === "cv")!;
@@ -82,7 +72,6 @@ export function Cv() {
   return (
     <Section
       id={meta.id}
-      eyebrow={meta.label}
       title={meta.title!}
       tone="surface"
       aside={
@@ -96,71 +85,6 @@ export function Cv() {
         <CvBlock title={ui.cvExperience}>
           <ExperienceTimeline />
         </CvBlock>
-
-        <CvBlock title={ui.cvEducation}>
-          <ul className="space-y-6">
-            {education.map((item) => (
-              <li key={`${item.institution}-${item.start}`}>
-                <h4 className="font-display text-lead font-bold">{item.degree}</h4>
-                <p className="text-ink-muted">
-                  {item.institution} · {item.detail}
-                </p>
-                <p className={`mt-1 ${dateText}`}>{item.periodLabel}</p>
-              </li>
-            ))}
-          </ul>
-        </CvBlock>
-
-        <CvBlock title={ui.cvCertifications}>
-          <ul className="space-y-6">
-            {certifications.map((cert) => (
-              <li key={cert.name}>
-                <h4 className="font-display text-lead font-bold">{cert.name}</h4>
-                <p className="text-ink-muted">{cert.issuer}</p>
-                <p className={`mt-1 ${dateText}`}>
-                  <time dateTime={cert.date}>{cert.dateLabel}</time>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </CvBlock>
-
-        <CvBlock title={ui.cvSkills}>
-          <div className="space-y-8">
-            {skills.map((group) => (
-              <div key={group.category}>
-                <h4 className="font-display font-bold">{group.category}</h4>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {group.items.map((skill) => (
-                    <li
-                      key={skill}
-                      className="rounded-full border border-line px-3 py-1 font-mono text-label transition-colors duration-200 hover:border-violet hover:bg-lila-soft"
-                    >
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </CvBlock>
-
-        <div className="grid gap-16 sm:grid-cols-2 sm:gap-10">
-          <CvBlock title={ui.cvLanguages}>
-            <ul className="space-y-1">
-              {languages.map((lang) => (
-                <li key={lang.name}>
-                  <span className="font-bold">{lang.name}</span>: {ui.cvSpoken} {lang.spoken} · {ui.cvWritten}{" "}
-                  {lang.written}
-                </li>
-              ))}
-            </ul>
-          </CvBlock>
-
-          <CvBlock title={ui.cvStrengths}>
-            <p>{strengths.join(" · ")}</p>
-          </CvBlock>
-        </div>
       </div>
     </Section>
   );

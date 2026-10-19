@@ -18,9 +18,6 @@ type MobileMenuProps = {
   returnFocusTo: RefObject<HTMLButtonElement | null>;
 };
 
-// Same links as the desktop nav; the monogram covers "Inicio"
-const navLinks = sections.filter((s) => s.id !== "inicio");
-
 const ease: [number, number, number, number] = [0.7, 0, 0.3, 1];
 
 // Full-screen modal menu with giant staggered links
@@ -29,7 +26,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   // Section to scroll to once the exit animation ends
-  const pendingTarget = useRef<SectionId | null>(null);
+  const pendingTarget = useRef<string | null>(null);
 
   // Opens the native modal (traps focus) and locks page scroll
   useEffect(() => {
@@ -65,7 +62,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
 
   // Closes first, then scrolls; off the home page it navigates normally
   function handleNavigate(event: MouseEvent<HTMLAnchorElement>) {
-    const id = event.currentTarget.hash.slice(1) as SectionId;
+    const id = event.currentTarget.hash.slice(1);
     if (!hasSection(id)) return;
     event.preventDefault();
     pendingTarget.current = id;
@@ -143,7 +140,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
 
             <nav aria-label={ui.navLabel} className="relative mt-10 flex-1">
               <motion.ul variants={list} initial="hidden" animate="visible">
-                {navLinks.map((section, i) => {
+                {sections.map((section, i) => {
                   const isActive = active === section.id;
                   return (
                     <li key={section.id}>

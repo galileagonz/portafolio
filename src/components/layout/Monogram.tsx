@@ -4,10 +4,10 @@ import { Sparkle } from "@/components/ui/Shapes";
 import { sectionHref } from "@/lib/paths";
 import { handleSectionLink } from "@/lib/scroll";
 
-// "AG" badge linking home; wobbles and sparkles on hover
+// "AG" badge linking to the page top; wobbles and sparkles on hover
 export function Monogram({ onClick = handleSectionLink }: { onClick?: (event: MouseEvent<HTMLAnchorElement>) => void }) {
   return (
-    <a href={sectionHref("inicio")} onClick={onClick} className="group relative inline-flex shrink-0 rounded-full">
+    <a href={sectionHref("contenido")} onClick={onClick} className="group relative inline-flex shrink-0 rounded-full">
       <span className="sr-only">{ui.homeLabel}</span>
       <span
         aria-hidden="true"

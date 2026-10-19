@@ -120,6 +120,14 @@
   /* Decorative loops for the mobile menu shapes */
   --animate-float: float 6s ease-in-out infinite;
   --animate-spin-slow: spin 18s linear infinite;
+  /* Tools carousel: the track holds two copies, so -50% loops seamlessly */
+  --animate-marquee: marquee 105s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 
   @keyframes float {
     0%,

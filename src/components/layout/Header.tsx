@@ -13,7 +13,8 @@ import { Monogram } from "./Monogram";
 import { MobileMenu } from "./MobileMenu";
 
 const sectionIds = sections.map((s) => s.id);
-const navLinks = sections.filter((s) => s.id !== "inicio");
+// Contacto is covered by the header CTA button on desktop
+const navLinks = sections.filter((s) => s.id !== "contacto");
 
 // Fixed sticker header with desktop links and mobile menu trigger
 export function Header() {

@@ -12,7 +12,6 @@ export function Contact() {
   return (
     <Section
       id={meta.id}
-      eyebrow={meta.label}
       title={meta.title!}
       aside={
         <div className="space-y-8">

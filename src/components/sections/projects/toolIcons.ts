@@ -1,0 +1,55 @@
+import {
+  siAndroidstudio,
+  siCloudflare,
+  siCoolify,
+  siCss,
+  siDigitalocean,
+  siDocker,
+  siExpress,
+  siFastapi,
+  siGit,
+  siHtml5,
+  siJetpackcompose,
+  siKotlin,
+  siMysql,
+  siNextdotjs,
+  siNodedotjs,
+  siPhp,
+  siPostman,
+  siPython,
+  siReact,
+  siTailwindcss,
+  siTypescript,
+  siWordpress,
+  type SimpleIcon,
+} from "simple-icons";
+import type { ToolIconId } from "@/data/content";
+
+// Below 3:1 on the dark background (#110C20); drawn in text-ink instead of brand hex
+export const inkLogos: ReadonlySet<ToolIconId> = new Set<ToolIconId>(["nextdotjs", "express", "coolify", "css"]);
+
+// Icon id to SVG data; server-only so icons never reach the client bundle
+export const toolIcons: Record<ToolIconId, SimpleIcon> = {
+  python: siPython,
+  typescript: siTypescript,
+  kotlin: siKotlin,
+  php: siPhp,
+  html5: siHtml5,
+  css: siCss,
+  react: siReact,
+  nextdotjs: siNextdotjs,
+  tailwindcss: siTailwindcss,
+  fastapi: siFastapi,
+  nodedotjs: siNodedotjs,
+  express: siExpress,
+  jetpackcompose: siJetpackcompose,
+  git: siGit,
+  docker: siDocker,
+  coolify: siCoolify,
+  digitalocean: siDigitalocean,
+  cloudflare: siCloudflare,
+  wordpress: siWordpress,
+  mysql: siMysql,
+  postman: siPostman,
+  androidstudio: siAndroidstudio,
+};
