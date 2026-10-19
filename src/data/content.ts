@@ -70,11 +70,11 @@ export type ProjectLinks = {
   code?: string;
 };
 
-// Image fields go together; without them the card shows a placeholder
+// Image fields go together (path inside public/); without them the card shows a placeholder
 type ProjectImage = { image: string; imageAlt: string } | { image?: undefined; imageAlt?: undefined };
 
 export type Project = ProjectImage & {
-  // Stable slug; image files are public/projects/<slug>.webp
+  // Stable slug
   slug: string;
   title: string;
   // 1–2 everyday sentences: what it is or how it helps, no tech names
@@ -162,7 +162,7 @@ export const contact: Contact = {
   github: "https://github.com/galileagonz",
   linkedin: "https://www.linkedin.com/in/alexandra-galilea-gonz%C3%A1lez-arias-b06584311",
   spotifyProfile: SPOTIFY_PROFILE_URL,
-  cv: "/Alexandra_CV.pdf",
+  cv: "/CV.pdf",
 };
 
 export const sections: NavSection[] = [
@@ -176,7 +176,7 @@ export const sections: NavSection[] = [
 export const ui = {
   skipLink: "Saltar al contenido",
   monogram: "AG",
-  homeLabel: "Alexandra Galilea González, ir al inicio",
+  homeLabel: "Alexandra González, ir al inicio",
   navLabel: "Principal",
   menuLabel: "Menú",
   menuOpen: "Abrir menú",
@@ -356,7 +356,7 @@ export const projects: Project[] = [
     title: "Varsa Studio",
     description:
       "Agencia digital que ayuda a los negocios a destacar en línea con sitios web, apps, automatización, publicidad y SEO.",
-    image: "/projects/varsa-studio.webp",
+    image: "/images/Varsa Studio.png",
     imageAlt: "Página de inicio del sitio de Varsa Studio",
     metric: { value: "4.6k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
     links: { site: { url: "https://varsastudio.com/", label: "Ver sitio" } },
@@ -366,7 +366,7 @@ export const projects: Project[] = [
     title: "Lucid Locations",
     description:
       "Marketplace que conecta a dueños de propiedades con productoras y creadores de contenido que buscan locaciones únicas para grabaciones y eventos.",
-    image: "/projects/lucid-locations.webp",
+    image: "/images/Lucid_Locations.png",
     imageAlt: "Página de inicio del sitio de Lucid Locations",
     metric: { value: "5.9k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
     links: { site: { url: "https://lucidlocations.com/", label: "Ver sitio" } },
@@ -376,7 +376,7 @@ export const projects: Project[] = [
     title: "Local Things",
     description:
       "Plataforma para descubrir qué hacer cerca de ti: reúne en un solo lugar los eventos de negocios y lugares populares de la zona.",
-    image: "/projects/local-things.webp",
+    image: "/images/Local Things.png",
     imageAlt: "Página de inicio de la plataforma Local Things",
     // Private repository, so no code link
     links: { site: { url: "https://develop.localthings.io/", label: "Ver demo" } },
@@ -386,8 +386,8 @@ export const projects: Project[] = [
     title: "Apps Android",
     description:
       "Aplicaciones para celular Android desarrolladas en una materia de la universidad, con interfaces modernas.",
-    image: "/projects/android-apps.webp",
-    imageAlt: "Capturas de las apps Android",
+    image: "/images/Android_Studio.png",
+    imageAlt: "Código de una de las apps Android abierto en Android Studio",
     // TODO: replace NOMBRE-DEL-REPO with the real repository name before deploying
     links: { code: "https://github.com/galileagonz/NOMBRE-DEL-REPO" },
     published: true,

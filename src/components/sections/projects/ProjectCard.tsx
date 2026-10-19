@@ -64,7 +64,8 @@ function ProjectCover({ project, hasImage }: { project: Project; hasImage: boole
     <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-lila-soft">
       {hasImage && project.image ? (
         <Image
-          src={withBasePath(project.image)}
+          // encodeURI handles file names with spaces
+          src={withBasePath(encodeURI(project.image))}
           alt={project.imageAlt}
           width={1600}
           height={1000}

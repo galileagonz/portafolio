@@ -37,6 +37,8 @@
   --lila: #b79cff;
   --violet: #7c4dff;
   --sun: #ffd84d;
+  /* Paw monogram hover tint only (2.7:1 on violet) */
+  --lila-light: #cbb8ff;
   --on-accent: #1e1433;
   --on-violet: #ffffff;
 }
@@ -83,6 +85,7 @@
   --color-lila: var(--lila);
   --color-violet: var(--violet);
   --color-sun: var(--sun);
+  --color-lila-light: var(--lila-light);
   --color-on-accent: var(--on-accent);
   --color-on-violet: var(--on-violet);
 
@@ -126,6 +129,15 @@
   @keyframes marquee {
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  /* Paw monogram: yellow and lila alternate while hovered or focused */
+  --animate-paw-colors: paw-colors 1.2s ease-in-out infinite;
+
+  @keyframes paw-colors {
+    50% {
+      fill: var(--lila-light);
     }
   }
 
