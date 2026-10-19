@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, type MouseEvent, type RefObject } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { reducedFade } from "@/components/motion/transitions";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { Blob, Sparkle, Star } from "@/components/ui/Shapes";
+import { SlideText } from "@/components/ui/SlideText";
 import { contact, sections, ui, type SectionId } from "@/data/content";
-import { scrollToSection } from "@/lib/scroll";
+import { sectionHref } from "@/lib/paths";
+import { hasSection, scrollToSection } from "@/lib/scroll";
 import { Monogram } from "./Monogram";
 
 type MobileMenuProps = {
@@ -18,7 +21,9 @@ type MobileMenuProps = {
 // Same links as the desktop nav; the monogram covers "Inicio"
 const navLinks = sections.filter((s) => s.id !== "inicio");
 
-// Full-screen modal menu with large section links
+const ease: [number, number, number, number] = [0.7, 0, 0.3, 1];
+
+// Full-screen modal menu with giant staggered links
 export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuProps) {
   const reduce = useReducedMotion();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -38,7 +43,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
   // Closes the menu if the viewport grows to desktop size
   useEffect(() => {
     if (!open) return;
-    const mq = window.matchMedia("(min-width: 48rem)");
+    const mq = window.matchMedia("(min-width: 64rem)");
     const handle = () => mq.matches && onClose();
     mq.addEventListener("change", handle);
     return () => mq.removeEventListener("change", handle);
@@ -58,19 +63,33 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
     else returnFocusTo.current?.focus();
   }
 
-  // Reads the target from the link hash, then closes before scrolling
+  // Closes first, then scrolls; off the home page it navigates normally
   function handleNavigate(event: MouseEvent<HTMLAnchorElement>) {
+    const id = event.currentTarget.hash.slice(1) as SectionId;
+    if (!hasSection(id)) return;
     event.preventDefault();
-    pendingTarget.current = event.currentTarget.hash.slice(1) as SectionId;
+    pendingTarget.current = id;
     onClose();
   }
 
-  // Plain fade in and out
-  const panel = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-    transition: reduce ? reducedFade : { duration: 0.25, ease: "easeOut" as const },
+  // Circle wipe from the menu button; reduced motion only fades
+  const panel = reduce
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: reducedFade }
+    : {
+        initial: { clipPath: "circle(0% at 92% 2.5rem)" },
+        animate: { clipPath: "circle(150% at 92% 2.5rem)" },
+        exit: { clipPath: "circle(0% at 92% 2.5rem)" },
+        transition: { duration: 0.6, ease },
+      };
+
+  const list: Variants = {
+    hidden: {},
+    visible: { transition: { delayChildren: reduce ? 0 : 0.25, staggerChildren: reduce ? 0 : 0.07 } },
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: "90%", rotate: 4 },
+    visible: { opacity: 1, y: 0, rotate: 0, transition: reduce ? reducedFade : { duration: 0.6, ease } },
   };
 
   return (
@@ -90,9 +109,13 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
           <motion.div
             key="panel"
             {...panel}
-            className="flex min-h-dvh flex-col bg-bg pb-10"
+            className="relative flex min-h-dvh flex-col overflow-hidden bg-bg px-3 pt-3 pb-10 sm:px-6 sm:pt-4"
           >
-            <div className="flex h-16 items-center justify-between gap-4 border-b border-line px-4 sm:px-8">
+            <Blob className="absolute -right-24 -bottom-24 w-80 animate-float text-violet" variant={1} />
+            <Star className="absolute bottom-40 left-[-1.5rem] w-20 animate-spin-slow text-sun" outlined />
+            <Sparkle className="absolute top-28 right-8 w-10 animate-float text-lila [animation-delay:-3s]" outlined />
+
+            <div className="relative flex items-center justify-between gap-4 rounded-full border-3 border-ink bg-surface p-1.5 shadow-hard">
               <Monogram onClick={handleNavigate} />
               <div className="flex items-center gap-2">
                 <ThemeToggle />
@@ -100,16 +123,16 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
                   ref={closeButton}
                   type="button"
                   onClick={onClose}
-                  className="inline-flex size-10 items-center justify-center rounded-full border border-line text-ink transition-colors duration-200 hover:bg-lila-soft"
+                  className="group inline-flex size-11 items-center justify-center rounded-full border-3 border-ink bg-lila text-on-accent shadow-hard-sm transition-[translate,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
                 >
                   <span className="sr-only">{ui.menuClose}</span>
                   <svg
                     aria-hidden="true"
                     focusable="false"
                     viewBox="0 0 24 24"
-                    className="size-4"
+                    className="size-5 transition-transform duration-300 group-hover:rotate-90"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="3"
                     strokeLinecap="round"
                   >
                     <path d="M5 5l14 14M19 5L5 19" />
@@ -118,39 +141,34 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
               </div>
             </div>
 
-            <nav aria-label={ui.navLabel} className="mt-10 flex-1 px-4 sm:px-8">
-              <ul className="space-y-2">
+            <nav aria-label={ui.navLabel} className="relative mt-10 flex-1">
+              <motion.ul variants={list} initial="hidden" animate="visible">
                 {navLinks.map((section, i) => {
                   const isActive = active === section.id;
                   return (
                     <li key={section.id}>
-                      {/* Active link keeps a thin yellow underline */}
-                      <a
-                        href={`#${section.id}`}
+                      <motion.a
+                        variants={item}
+                        href={sectionHref(section.id)}
                         onClick={handleNavigate}
                         aria-current={isActive ? "location" : undefined}
-                        className="flex items-baseline gap-4 py-1 font-display text-menu font-bold"
+                        className="group flex items-baseline gap-3 rounded-2xl py-1 font-display text-menu font-extrabold"
                       >
-                        <span className="w-7 shrink-0 font-mono text-label text-ink-muted">
+                        <span className="w-7 shrink-0 font-mono text-label font-bold text-ink-muted">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span
-                          className={`underline decoration-2 underline-offset-8 transition-colors duration-200 ${
-                            isActive ? "decoration-sun" : "decoration-transparent hover:decoration-current"
-                          }`}
-                        >
-                          {section.label}
-                        </span>
-                      </a>
+                        <SlideText text={section.label} />
+                        {isActive && <Star className="size-6 shrink-0 self-center text-sun" points={5} outlined />}
+                      </motion.a>
                     </li>
                   );
                 })}
-              </ul>
+              </motion.ul>
             </nav>
 
             <a
               href={`mailto:${contact.email}`}
-              className="mx-4 mt-8 self-start font-mono text-label break-all text-ink-muted underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-ink hover:decoration-current sm:mx-8"
+              className="relative mt-8 self-start rounded-full border-3 border-ink bg-surface px-4 py-2 font-mono text-label font-bold break-all shadow-hard-sm"
             >
               {contact.email}
             </a>

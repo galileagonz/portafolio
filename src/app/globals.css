@@ -30,6 +30,7 @@
   --line: #e3d9ff;
   --lila-soft: #ede6ff;
   --accent-text: #4c2a9e;
+  --shadow-color: #1e1433;
   --focus: #7c4dff;
 
   /* Accents are shared by both themes */
@@ -52,6 +53,7 @@
     --line: #33275c;
     --lila-soft: #2a2050;
     --accent-text: #b79cff;
+    --shadow-color: #b79cff;
     --focus: #ffd84d;
   }
 }
@@ -66,6 +68,7 @@
   --line: #33275c;
   --lila-soft: #2a2050;
   --accent-text: #b79cff;
+  --shadow-color: #b79cff;
   --focus: #ffd84d;
 }
 
@@ -86,6 +89,11 @@
   --font-display: var(--font-syne);
   --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-space-mono);
+
+  /* Hard offset shadows for the header sticker look */
+  --shadow-hard-sm: 3px 3px 0 0 var(--shadow-color);
+  --shadow-hard: 6px 6px 0 0 var(--shadow-color);
+  --shadow-hard-lg: 10px 10px 0 0 var(--shadow-color);
 }
 
 @theme {
@@ -108,6 +116,20 @@
   --text-label: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
   --text-label--line-height: 1.3;
   --text-label--letter-spacing: 0.12em;
+
+  /* Decorative loops for the mobile menu shapes */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-14px) rotate(4deg);
+    }
+  }
 }
 
 /* Yellow highlighter behind inline text; forces dark text */
@@ -120,27 +142,44 @@
   -webkit-box-decoration-break: clone;
 }
 
-/* Marker that sweeps in once; reduced motion shows it already drawn */
+/* One-time marker sweep via scaleX; inline-block keeps it on one line */
 @utility marker-draw {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
   background-color: transparent;
-  background-image: linear-gradient(var(--sun), var(--sun));
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
   color: var(--on-accent);
   padding-inline: 0.2em;
-  border-radius: 0.25em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0.25em;
+    background-color: var(--sun);
+    transform-origin: left center;
+  }
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: marker-draw 500ms ease-out 800ms both;
+    animation: marker-ink 500ms ease-out 800ms both;
+
+    &::before {
+      animation: marker-sweep 500ms ease-out 800ms both;
+    }
   }
 }
 
-/* Text turns dark as the yellow fills behind it */
-@keyframes marker-draw {
+/* Yellow grows from the left using transform only */
+@keyframes marker-sweep {
   from {
-    background-size: 0% 100%;
+    transform: scaleX(0);
+  }
+}
+
+/* Text darkens as the yellow lands behind it */
+@keyframes marker-ink {
+  from {
     color: var(--ink);
   }
 }
@@ -173,6 +212,11 @@
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
+  }
+
+  /* Programmatic focus targets aren't controls; skip the region-wide ring */
+  [tabindex="-1"]:focus {
+    outline: none;
   }
 
   ::selection {

@@ -9,7 +9,7 @@ import { serviceQuoteHref } from "@/lib/services";
 
 const meta = sections.find((s) => s.id === "sobre-mi")!;
 
-// Soft lila frame: shows the photo once set, else a monogram placeholder
+// Lila frame: photo when set, monogram placeholder otherwise
 function PhotoFrame() {
   return (
     <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-line bg-lila-soft lg:max-w-none">
@@ -33,7 +33,7 @@ function PhotoFrame() {
   );
 }
 
-// Clean service list; each row links to Contacto with it preselected
+// Service list; "Cotizar" preselects that service in Contacto
 function Services() {
   return (
     <ScrollReveal amount={0.2} className="mt-24 md:mt-32">

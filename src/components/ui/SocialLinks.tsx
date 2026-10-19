@@ -69,7 +69,7 @@ const links: SocialLink[] = [
   },
 ];
 
-// Icon links to profiles; entries with an empty URL are hidden
+// Profile icon links; entries with empty URLs are hidden
 export function SocialLinks({ className = "" }: { className?: string }) {
   const visible = links.filter((link) => link.href);
 

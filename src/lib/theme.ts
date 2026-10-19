@@ -33,6 +33,7 @@ export function getActiveTheme(): Theme {
     : "light";
 }
 
+// Sets the manual theme on <html>
 export function applyTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
 }

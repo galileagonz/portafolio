@@ -35,7 +35,7 @@ function validateField(name: FieldName, raw: FormDataEntryValue | null): string 
 const fieldBase =
   "mt-2 block w-full rounded-xl bg-surface px-4 py-3 text-ink transition-colors duration-200 placeholder:text-ink-muted";
 
-// Violet border meets 3:1; errors thicken it so color isn't the only cue
+// Violet border meets 3:1; thicker on error, not color alone
 const fieldClass = (error?: string) => `${fieldBase} ${error ? "border-2 border-accent" : "border border-violet"}`;
 
 const labelClass = "font-display font-bold";
@@ -63,7 +63,7 @@ export function ContactForm() {
   const errorId = (name: FieldName) => `${ids[name]}-error`;
   const describedBy = (name: FieldName) => (errors[name] ? errorId(name) : undefined);
 
-  // Re-checks a flagged field as it is edited so its error clears
+  // Re-validates flagged fields while editing so errors clear
   function handleChange(event: FormEvent<HTMLFormElement>) {
     const target = event.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
     const name = target.name as FieldName;
@@ -81,7 +81,7 @@ export function ContactForm() {
     for (const name of FIELD_ORDER) found[name] = validateField(name, data.get(name));
     setErrors(found);
 
-    // Moves focus to the first problem so its error is read
+    // Focuses the first invalid field so its error is read
     const firstInvalid = FIELD_ORDER.find((name) => found[name]);
     if (firstInvalid) {
       setStatus("invalid");
@@ -155,7 +155,7 @@ export function ContactForm() {
         <label htmlFor={ids.service} className={labelClass}>
           {fields.service}
         </label>
-        {/* Static HTML renders the fallback; the URL preselect fills in on the client */}
+        {/* Fallback in static HTML; URL preselect applies on the client */}
         <Suspense
           fallback={
             <ServiceSelectField
@@ -198,7 +198,7 @@ export function ContactForm() {
         <button
           type="submit"
           aria-disabled={sending}
-          className={`${buttonStyles()} ${sending ? "cursor-wait opacity-70" : ""}`}
+          className={`${buttonStyles()} ${sending ? "cursor-wait" : ""}`}
         >
           {contactSection.submit}
         </button>

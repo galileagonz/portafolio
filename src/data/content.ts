@@ -123,6 +123,9 @@ export const SPOTIFY_PROFILE_URL = "";
 // Example Formspree endpoint; replace the ID with your real form
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/tu-id-de-formulario";
 
+// Public origin of the GitHub Pages site, without basePath
+export const SITE_ORIGIN = "https://galileagonz.github.io";
+
 const firstName = "Alexandra";
 const lastNames = "Galilea González Arias";
 
@@ -161,6 +164,7 @@ export const ui = {
   menuLabel: "Menú",
   menuOpen: "Abrir menú",
   menuClose: "Cerrar menú",
+  headerCta: "Hablemos",
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   newTab: "(se abre en una pestaña nueva)",
@@ -187,6 +191,24 @@ export const ui = {
   socialEmail: "Escribir un correo a Alexandra",
   footerMadeWith: "Hecho con Next.js",
   backToTop: "Volver arriba",
+};
+
+// SEO and social sharing copy
+export const site = {
+  title: "Alexandra Galilea González · Desarrolladora full stack",
+  description:
+    "Portafolio de Alexandra Galilea González, desarrolladora full stack y freelancer: sitios web, APIs, despliegue y apps Android.",
+  ogAlt: "Alexandra Galilea González, desarrolladora full stack y freelancer",
+  locale: "es_MX",
+};
+
+// Copy for the 404 page
+export const notFound = {
+  metaTitle: "Página no encontrada",
+  eyebrow: "Error 404",
+  title: "Esta página no existe",
+  text: "Puede que el enlace esté roto o que la página haya cambiado de lugar.",
+  cta: "Volver al inicio",
 };
 
 // Copy for the contact section and form

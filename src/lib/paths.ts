@@ -4,3 +4,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export function withBasePath(path: string) {
   return `${basePath}${path}`;
 }
+
+// Home section URL that also works from other pages (e.g. 404)
+export function sectionHref(id: string) {
+  return withBasePath(`/#${id}`);
+}
