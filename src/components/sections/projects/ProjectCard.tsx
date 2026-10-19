@@ -1,103 +1,132 @@
 import Image from "next/image";
-import { ButtonLink } from "@/components/ui/ButtonLink";
-import { ui, type Project, type ProjectStatus } from "@/data/content";
+import type { ReactNode } from "react";
+import { siGithub } from "simple-icons";
+import { buttonStyles } from "@/components/ui/ButtonLink";
+import { ui, type Project } from "@/data/content";
 import { withBasePath } from "@/lib/paths";
 
-const label = "font-mono text-label uppercase text-accent";
-const badge = "rounded-full px-3 py-1 font-mono text-label";
+const iconClass = "size-4 shrink-0";
 
-// Production is solid violet; the label always names the status
-const statusStyles: Record<ProjectStatus, string> = {
-  produccion: "bg-violet text-on-violet",
-  staging: "bg-lila-soft text-ink",
-  academico: "bg-lila-soft text-ink",
+// Arrow leaving a box, marks links that open a new tab
+function ExternalIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={iconClass}
+    >
+      <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+    </svg>
+  );
+}
+
+function GithubIcon() {
+  return (
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" className={iconClass}>
+      <path d={siGithub.path} />
+    </svg>
+  );
+}
+
+type ExternalButtonProps = {
+  href: string;
+  label: string;
+  projectTitle: string;
+  variant: "primary" | "secondary";
+  icon: ReactNode;
 };
 
-// 16:10 screenshot, or a lila placeholder with the project name
-function ProjectImage({ project, hasImage }: { project: Project; hasImage: boolean }) {
+// New-tab button; the accessible name starts with the visible label
+function ExternalButton({ href, label, projectTitle, variant, icon }: ExternalButtonProps) {
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-t-2xl border-b border-line bg-lila-soft">
-      {hasImage ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${label}: ${projectTitle} ${ui.newTab}`}
+      className={buttonStyles(variant, "sm")}
+    >
+      {icon}
+      {label}
+    </a>
+  );
+}
+
+// 16:10 cover with fixed size, or a lila placeholder with the title
+function ProjectCover({ project, hasImage }: { project: Project; hasImage: boolean }) {
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-lila-soft">
+      {hasImage && project.image ? (
         <Image
-          src={withBasePath(project.image.src)}
-          alt={project.image.alt}
-          fill
+          src={withBasePath(project.image)}
+          alt={project.imageAlt}
+          width={1600}
+          height={1000}
           loading="lazy"
-          sizes="(min-width: 1152px) 24rem, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-          className="object-cover"
+          sizes="(min-width: 1152px) 22rem, (min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
+          className="size-full object-cover"
         />
       ) : (
         <span
           aria-hidden="true"
           className="absolute inset-0 flex items-center justify-center px-6 text-center font-display text-title font-bold text-accent"
         >
-          {project.name}
+          {project.title}
         </span>
       )}
     </div>
   );
 }
 
-// Project card: screenshot, badges, details, metrics and link
+// Project card: cover, title, short description, visits and link buttons
 export function ProjectCard({ project, hasImage }: { project: Project; hasImage: boolean }) {
-  const { name, status, kind, description, role, challenge, metrics, url, linkLabel, noLinkNote } = project;
+  const { title, description, metric, links } = project;
 
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-line bg-surface">
-      <ProjectImage project={project} hasImage={hasImage} />
+    // Hover: lila border and a 2px lift; no lift with reduced motion
+    <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-4 transition-[translate,border-color] duration-200 hover:-translate-y-0.5 hover:border-lila motion-reduce:hover:translate-y-0">
+      <ProjectCover project={project} hasImage={hasImage} />
 
-      <div className="flex flex-1 flex-col gap-6 p-6 sm:p-8 lg:p-6">
-        <ul className="flex flex-wrap gap-2">
-          <li className={`${badge} ${statusStyles[status]}`}>{ui.projectStatus[status]}</li>
-          <li className={`${badge} border border-line text-ink-muted`}>{kind}</li>
-        </ul>
+      <div className="flex flex-1 flex-col px-2 pt-5 pb-2">
+        <h3 className="font-display text-title font-bold">{title}</h3>
+        <p className="mt-2 text-ink-muted">{description}</p>
 
-        <div>
-          <h3 className="font-display text-title font-bold">{name}</h3>
-          <p className="mt-2 text-ink-muted">{description}</p>
-        </div>
-
-        {(role || challenge) && (
-          <dl className="space-y-4">
-            {role && (
-              <div>
-                <dt className={label}>{ui.projectRole}</dt>
-                <dd className="mt-1">{role}</dd>
-              </div>
-            )}
-            {challenge && (
-              <div>
-                <dt className={label}>{ui.projectChallenge}</dt>
-                <dd className="mt-1">{challenge}</dd>
-              </div>
-            )}
-          </dl>
-        )}
-
-        {/* Label comes first for screen readers, value shows on top */}
-        {metrics && (
-          <div className="border-t border-line pt-6">
-            <h4 className="sr-only">{ui.projectMetrics}</h4>
-            <dl className="grid grid-cols-2 gap-4">
-              {metrics.map((metric) => (
-                <div key={metric.label} className="flex flex-col-reverse">
-                  <dt className="mt-1 font-mono text-label text-ink-muted">{metric.label}</dt>
-                  <dd className="font-display text-title font-bold">{metric.value}</dd>
-                </div>
-              ))}
-            </dl>
+        {metric && (
+          <div className="mt-5">
+            <p className="font-display text-title font-bold">{metric.value}</p>
+            <p className="text-ink-muted">{metric.label}</p>
+            <p className="mt-1 text-label tracking-normal text-ink-muted">{metric.source}</p>
           </div>
         )}
 
-        {url ? (
-          <div className="mt-auto pt-2">
-            <ButtonLink href={url} variant="secondary" size="sm" external>
-              {linkLabel ?? ui.projectVisit}
-              <span className="sr-only">: {name}</span>
-            </ButtonLink>
+        {/* mt-auto pins the buttons to the bottom across uneven cards */}
+        {(links.site || links.code) && (
+          <div className="mt-auto flex flex-wrap gap-3 pt-6">
+            {links.site && (
+              <ExternalButton
+                href={links.site.url}
+                label={links.site.label}
+                projectTitle={title}
+                variant="primary"
+                icon={<ExternalIcon />}
+              />
+            )}
+            {links.code && (
+              <ExternalButton
+                href={links.code}
+                label={ui.projectCode}
+                projectTitle={title}
+                variant="secondary"
+                icon={<GithubIcon />}
+              />
+            )}
           </div>
-        ) : (
-          noLinkNote && <p className="mt-auto pt-2 text-ink-muted">{noLinkNote}</p>
         )}
       </div>
     </article>

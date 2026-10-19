@@ -57,29 +57,32 @@ export type Experience = {
   highlights: string[];
 };
 
-export type ProjectStatus = "produccion" | "staging" | "academico";
-
 export type ProjectMetric = {
   value: string;
   label: string;
+  // Where the number comes from, shown in small muted text
+  source: string;
 };
 
-export type Project = {
-  // Stable slug
-  id: string;
-  name: string;
-  status: ProjectStatus;
-  kind: string;
-  // Keep under ~110 characters
+export type ProjectLinks = {
+  site?: { url: string; label: "Ver sitio" | "Ver demo" };
+  // Empty or missing hides the "Código" button
+  code?: string;
+};
+
+// Image fields go together; without them the card shows a placeholder
+type ProjectImage = { image: string; imageAlt: string } | { image?: undefined; imageAlt?: undefined };
+
+export type Project = ProjectImage & {
+  // Stable slug; image files are public/projects/<slug>.webp
+  slug: string;
+  title: string;
+  // 1–2 everyday sentences: what it is or how it helps, no tech names
   description: string;
-  role?: string;
-  challenge?: string;
-  metrics?: [ProjectMetric] | [ProjectMetric, ProjectMetric];
-  url?: string;
-  linkLabel?: string;
-  noLinkNote?: string;
-  // src is a public/ path; missing files show a placeholder
-  image: { src: string; alt: string };
+  metric?: ProjectMetric;
+  links: ProjectLinks;
+  // false hides the project; defaults to shown
+  published?: boolean;
 };
 
 // simple-icons available in the installed package; mapped in toolIcons.ts
@@ -182,16 +185,8 @@ export const ui = {
   themeToDark: "Activar tema oscuro",
   themeToLight: "Activar tema claro",
   newTab: "(se abre en una pestaña nueva)",
-  projectRole: "Mi rol",
-  projectChallenge: "Reto técnico",
-  projectMetrics: "Métricas",
-  projectVisit: "Ver sitio",
+  projectCode: "Código",
   toolsLabel: "Herramientas que uso",
-  projectStatus: {
-    produccion: "En producción",
-    staging: "En staging",
-    academico: "Académico",
-  },
   cvDownload: "Descargar CV (PDF)",
   cvExperience: "Experiencia",
   socialNav: "Redes y contacto",
@@ -357,52 +352,45 @@ export const experience: Experience[] = [
 
 export const projects: Project[] = [
   {
-    id: "varsa",
-    name: "Varsa Studio",
-    status: "produccion",
-    kind: "Empresa donde trabajo",
+    slug: "varsa-studio",
+    title: "Varsa Studio",
     description:
-      "Agencia digital donde trabajo como desarrolladora full stack: web, apps, automatización y SEO.",
-    // TODO: role and challenge pending from Alexandra
-    metrics: [{ value: "~4.6k", label: "visitas/mes" }],
-    url: "https://varsastudio.com",
-    image: { src: "/projects/varsa.webp", alt: "Página de inicio de Varsa Studio" },
+      "Agencia digital que ayuda a los negocios a destacar en línea con sitios web, apps, automatización, publicidad y SEO.",
+    image: "/projects/varsa-studio.webp",
+    imageAlt: "Página de inicio del sitio de Varsa Studio",
+    metric: { value: "4.6k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
+    links: { site: { url: "https://varsastudio.com/", label: "Ver sitio" } },
   },
   {
-    id: "lucid-locations",
-    name: "Lucid Locations",
-    status: "produccion",
-    kind: "Cliente de Varsa Studio",
+    slug: "lucid-locations",
+    title: "Lucid Locations",
     description:
-      "Sitio inmobiliario que migré de HostGator a DigitalOcean y convertí en WordPress headless con Next.js.",
-    role: "Migración de infraestructura y frontend en Next.js, en un equipo de 3 personas.",
-    challenge:
-      "Migrar WordPress (tema Houzez), mover las imágenes a un CDN (DO Spaces) y consumir la API REST de WordPress desde Next.js.",
-    metrics: [{ value: "~5.9k", label: "visitas/mes" }],
-    url: "https://lucidlocations.com",
-    image: { src: "/projects/lucid-locations.webp", alt: "Página de inicio de Lucid Locations" },
+      "Marketplace que conecta a dueños de propiedades con productoras y creadores de contenido que buscan locaciones únicas para grabaciones y eventos.",
+    image: "/projects/lucid-locations.webp",
+    imageAlt: "Página de inicio del sitio de Lucid Locations",
+    metric: { value: "5.9k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
+    links: { site: { url: "https://lucidlocations.com/", label: "Ver sitio" } },
   },
   {
-    id: "local-things",
-    name: "Local Things",
-    status: "staging",
-    kind: "Proyecto interno de Varsa Studio",
-    description: "Plataforma de eventos y comunidad local, con frontend y API separados.",
-    role: "Desarrollo full stack y despliegue.",
-    challenge:
-      "Evalué modelos de OCR y visión para extraer datos de eventos desde flyers con un límite de 4 GB de RAM.",
-    url: "https://develop.localthings.io",
-    linkLabel: "Ver staging",
-    image: { src: "/projects/local-things.webp", alt: "Vista de la plataforma Local Things" },
+    slug: "local-things",
+    title: "Local Things",
+    description:
+      "Plataforma para descubrir qué hacer cerca de ti: reúne en un solo lugar los eventos de negocios y lugares populares de la zona.",
+    image: "/projects/local-things.webp",
+    imageAlt: "Página de inicio de la plataforma Local Things",
+    // Private repository, so no code link
+    links: { site: { url: "https://develop.localthings.io/", label: "Ver demo" } },
   },
   {
-    id: "android-apps",
-    name: "Apps Android",
-    status: "academico",
-    kind: "Proyecto universitario",
-    // TODO: add the course name and role
-    description: "Apps desarrolladas para una materia de la universidad.",
-    image: { src: "/projects/android-apps.webp", alt: "Capturas de las apps Android" },
+    slug: "android-apps",
+    title: "Apps Android",
+    description:
+      "Aplicaciones para celular Android desarrolladas en una materia de la universidad, con interfaces modernas.",
+    image: "/projects/android-apps.webp",
+    imageAlt: "Capturas de las apps Android",
+    // TODO: replace NOMBRE-DEL-REPO with the real repository name before deploying
+    links: { code: "https://github.com/galileagonz/NOMBRE-DEL-REPO" },
+    published: true,
   },
 ];
 
