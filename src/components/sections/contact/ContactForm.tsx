@@ -1,15 +1,14 @@
 "use client";
 
-import { Suspense, useId, useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { buttonStyles } from "@/components/ui/ButtonLink";
-import { contact, contactSection, FORMSPREE_ENDPOINT, services } from "@/data/content";
-import { ServiceSelect, ServiceSelectField } from "./ServiceSelect";
+import { contact, contactSection, FORMSPREE_ENDPOINT } from "@/data/content";
 
-type FieldName = "name" | "email" | "service" | "message";
+type FieldName = "name" | "email" | "company" | "message";
 type Errors = Partial<Record<FieldName, string>>;
 type Status = "idle" | "invalid" | "sending" | "success" | "error";
 
-const FIELD_ORDER: FieldName[] = ["name", "email", "service", "message"];
+const FIELD_ORDER: FieldName[] = ["name", "email", "company", "message"];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_MESSAGE = 10;
 
@@ -24,8 +23,8 @@ function validateField(name: FieldName, raw: FormDataEntryValue | null): string 
     case "email":
       if (!value) return messages.emailRequired;
       return EMAIL_PATTERN.test(value) ? undefined : messages.emailInvalid;
-    case "service":
-      return value ? undefined : messages.serviceRequired;
+    case "company":
+      return undefined;
     case "message":
       if (!value) return messages.messageRequired;
       return value.length >= MIN_MESSAGE ? undefined : messages.messageShort;
@@ -39,6 +38,11 @@ const fieldBase =
 const fieldClass = (error?: string) => `${fieldBase} ${error ? "border-2 border-accent" : "border border-violet"}`;
 
 const labelClass = "font-display font-bold";
+
+// Visual asterisk; screen readers get "required" from the input
+function RequiredMark() {
+  return <span aria-hidden="true"> {contactSection.requiredMark}</span>;
+}
 
 // Error text linked to its field through aria-describedby
 function FieldError({ id, error }: { id: string; error?: string }) {
@@ -65,7 +69,7 @@ export function ContactForm() {
 
   // Re-validates flagged fields while editing so errors clear
   function handleChange(event: FormEvent<HTMLFormElement>) {
-    const target = event.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    const target = event.target as HTMLInputElement | HTMLTextAreaElement;
     const name = target.name as FieldName;
     if (!errors[name]) return;
     setErrors((prev) => ({ ...prev, [name]: validateField(name, target.value) }));
@@ -89,9 +93,8 @@ export function ContactForm() {
       return;
     }
 
-    // Sends the readable service title instead of its slug
-    const service = services.find((s) => s.id === data.get("service"));
-    data.set("service", service ? service.title : contactSection.serviceOther);
+    // Fixed subject for the email Formspree sends
+    data.set("_subject", contactSection.subject);
 
     setStatus("sending");
     try {
@@ -118,6 +121,7 @@ export function ContactForm() {
         <div>
           <label htmlFor={ids.name} className={labelClass}>
             {fields.name}
+            <RequiredMark />
           </label>
           <input
             id={ids.name}
@@ -135,6 +139,7 @@ export function ContactForm() {
         <div>
           <label htmlFor={ids.email} className={labelClass}>
             {fields.email}
+            <RequiredMark />
           </label>
           <input
             id={ids.email}
@@ -152,34 +157,22 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor={ids.service} className={labelClass}>
-          {fields.service}
+        <label htmlFor={ids.company} className={labelClass}>
+          {fields.company}
         </label>
-        {/* Fallback in static HTML; URL preselect applies on the client */}
-        <Suspense
-          fallback={
-            <ServiceSelectField
-              id={ids.service}
-              className={fieldClass(errors.service)}
-              invalid={Boolean(errors.service)}
-              describedBy={describedBy("service")}
-              preselect=""
-            />
-          }
-        >
-          <ServiceSelect
-            id={ids.service}
-            className={fieldClass(errors.service)}
-            invalid={Boolean(errors.service)}
-            describedBy={describedBy("service")}
-          />
-        </Suspense>
-        <FieldError id={errorId("service")} error={errors.service} />
+        <input
+          id={ids.company}
+          name="company"
+          type="text"
+          autoComplete="organization"
+          className={fieldClass()}
+        />
       </div>
 
       <div>
         <label htmlFor={ids.message} className={labelClass}>
           {fields.message}
+          <RequiredMark />
         </label>
         <textarea
           id={ids.message}
@@ -220,7 +213,6 @@ export function ContactForm() {
             >
               {contact.email}
             </a>
-            .
           </p>
         )}
       </div>

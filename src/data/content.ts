@@ -1,7 +1,5 @@
 // Single source of truth for all site copy (Spanish)
 
-export type AccentTone = "lila" | "violet" | "sun";
-
 export type SectionId = "proyectos" | "cv" | "sobre-mi" | "contacto";
 
 export type NavSection = {
@@ -16,7 +14,6 @@ export type Profile = {
   name: string;
   shortName: string;
   role: string;
-  heroPhrase: string;
   bio: string;
 };
 
@@ -27,16 +24,6 @@ export type Contact = {
   spotifyProfile: string;
   // Path inside public/; wrap with withBasePath() when linking
   cv: string;
-};
-
-export type Service = {
-  // Stable slug used to preselect the service in the contact form
-  id: string;
-  title: string;
-  description: string;
-  includes: string[];
-  tech: string[];
-  tone: AccentTone;
 };
 
 export type About = {
@@ -121,18 +108,9 @@ export type ToolGroup = {
   items: Tool[];
 };
 
-export type CtaLink = {
-  label: string;
-  href: string;
-};
-
+// Only the share image (og.png) uses this now
 export type Hero = {
   eyebrow: string;
-  // Words inside profile.heroPhrase drawn with the yellow marker
-  highlight: string;
-  availability: string;
-  primaryCta: CtaLink;
-  secondaryCta: CtaLink;
 };
 
 // Fill with your Spotify profile URL; empty hides it
@@ -152,8 +130,7 @@ export const profile: Profile = {
   lastNames,
   name: `${firstName} ${lastNames}`,
   shortName: "Galilea",
-  role: "Desarrolladora full stack y freelancer",
-  heroPhrase: "Construyo la web completa: del servidor al último píxel.",
+  role: "Desarrolladora full stack",
   bio: "Desarrolladora full stack apasionada por la tecnología, con experiencia en infraestructura, backend y frontend. Soy creativa, responsable y proactiva, y busco oportunidades para ampliar mis habilidades y conocimientos profesionales.",
 };
 
@@ -202,8 +179,8 @@ export const ui = {
 export const site = {
   title: "Alexandra Galilea González · Desarrolladora full stack",
   description:
-    "Portafolio de Alexandra Galilea González, desarrolladora full stack y freelancer: sitios web, APIs, despliegue y apps Android.",
-  ogAlt: "Alexandra Galilea González, desarrolladora full stack y freelancer",
+    "Portafolio de Alexandra Galilea González, desarrolladora full stack: sitios web, APIs, despliegue y apps Android.",
+  ogAlt: "Alexandra Galilea González, desarrolladora full stack",
   locale: "es_MX",
 };
 
@@ -218,35 +195,36 @@ export const notFound = {
 
 // Copy for the contact section and form
 export const contactSection = {
-  intro: "¿Tienes un proyecto en mente o una vacante que encaje conmigo? Escríbeme y te respondo pronto.",
+  intro: "Aquí te comparto mi contacto. Escríbeme cuando quieras y te respondo lo antes posible.",
   copyEmail: "Copiar correo:",
   copied: "¡Copiado!",
   copyFailed: "No se pudo copiar. Usa el enlace de abajo.",
   mailtoLabel: "O ábrelo en tu app de correo",
   formTitle: "Envíame un mensaje",
-  requiredNote: "Todos los campos son obligatorios.",
+  requiredNote: "Los campos con * son obligatorios.",
+  // Visual marker after required labels; inputs also carry `required`
+  requiredMark: "*",
   fields: {
     name: "Nombre",
     email: "Correo",
-    service: "Tipo de servicio",
+    company: "Empresa (opcional)",
     message: "Mensaje",
   },
-  servicePlaceholder: "Elige una opción",
-  serviceOther: "Otro o aún no lo sé",
+  // Fixed Formspree email subject (_subject)
+  subject: "Mensaje desde mi portafolio",
   errors: {
     nameRequired: "Escribe tu nombre.",
     emailRequired: "Escribe tu correo.",
     emailInvalid: "Revisa el correo; debe verse como nombre@dominio.com.",
-    serviceRequired: "Elige un tipo de servicio.",
     messageRequired: "Escribe tu mensaje.",
     messageShort: "Cuéntame un poco más (al menos 10 caracteres).",
   },
   fixErrors: "Revisa los campos marcados.",
   submit: "Enviar mensaje",
   sending: "Enviando tu mensaje…",
-  success: "¡Gracias! Tu mensaje llegó. Te responderé muy pronto.",
+  success: "¡Gracias por escribirme! Te respondo lo antes posible.",
   error: "No se pudo enviar el mensaje.",
-  errorFallback: "Escríbeme directamente a",
+  errorFallback: "Puedes escribirme directamente a mi correo:",
 };
 
 // Draft copy for the about section; rewrite freely
@@ -260,79 +238,8 @@ export const about: About = {
 };
 
 export const hero: Hero = {
-  eyebrow: "Desarrolladora full stack · Freelancer",
-  highlight: "la web completa",
-  availability: "Disponible para proyectos freelance",
-  primaryCta: { label: "Ver proyectos", href: "#proyectos" },
-  secondaryCta: { label: "Hablemos", href: "#contacto" },
+  eyebrow: "Desarrolladora full stack",
 };
-
-export const services: Service[] = [
-  {
-    id: "sitios-web",
-    title: "Sitios web y landing pages a la medida",
-    description: "Páginas rápidas, accesibles y con personalidad, pensadas para que tu proyecto destaque y convierta.",
-    includes: [
-      "Diseño adaptado a móvil, tablet y escritorio",
-      "Animaciones e interacciones cuidadas",
-      "Buenas prácticas de SEO y rendimiento",
-      "Entrega lista para publicar",
-    ],
-    tech: ["Next.js", "React", "Tailwind CSS"],
-    tone: "sun",
-  },
-  {
-    id: "backend-apis",
-    title: "Backend y APIs",
-    description: "La lógica que mueve tu producto: datos bien organizados y servicios claros para conectar tus apps.",
-    includes: [
-      "Diseño de APIs y endpoints",
-      "Modelado de bases de datos",
-      "Autenticación y validación de datos",
-      "Documentación para tu equipo",
-    ],
-    tech: ["FastAPI", "Node.js", "Express", "SQL"],
-    tone: "lila",
-  },
-  {
-    id: "produccion-hosting",
-    title: "Puesta en producción y hosting",
-    description: "Llevo tu proyecto del repositorio a internet, en un servidor estable y seguro.",
-    includes: [
-      "Configuración de servidores VPS",
-      "Dominios, DNS y certificados SSL",
-      "Contenedores con Docker",
-      "CDN y protección con Cloudflare",
-    ],
-    tech: ["VPS", "Docker", "Cloudflare", "SSL", "DNS"],
-    tone: "violet",
-  },
-  {
-    id: "migracion",
-    title: "Migración de sitios",
-    description: "Cambio tu sitio de casa sin perder contenido, o lo modernizo con una arquitectura headless.",
-    includes: [
-      "Cambio de proveedor de hosting",
-      "Migración de WordPress a headless",
-      "Traslado de imágenes y archivos a CDN",
-      "Verificación de que todo siga funcionando",
-    ],
-    tech: ["WordPress headless", "Next.js", "Cloudflare"],
-    tone: "lila",
-  },
-  {
-    id: "apps-android",
-    title: "Apps móviles Android",
-    description: "Aplicaciones nativas con interfaces modernas que se conectan a tus servicios.",
-    includes: [
-      "Interfaces con Jetpack Compose",
-      "Conexión con APIs",
-      "Navegación y manejo de estado",
-    ],
-    tech: ["Kotlin", "Jetpack Compose"],
-    tone: "violet",
-  },
-];
 
 export const experience: Experience[] = [
   {

@@ -162,48 +162,6 @@
   -webkit-box-decoration-break: clone;
 }
 
-/* One-time marker sweep via scaleX; inline-block keeps it on one line */
-@utility marker-draw {
-  position: relative;
-  isolation: isolate;
-  display: inline-block;
-  background-color: transparent;
-  color: var(--on-accent);
-  padding-inline: 0.2em;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: 0.25em;
-    background-color: var(--sun);
-    transform-origin: left center;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: marker-ink 500ms ease-out 800ms both;
-
-    &::before {
-      animation: marker-sweep 500ms ease-out 800ms both;
-    }
-  }
-}
-
-/* Yellow grows from the left using transform only */
-@keyframes marker-sweep {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-/* Text darkens as the yellow lands behind it */
-@keyframes marker-ink {
-  from {
-    color: var(--ink);
-  }
-}
-
 @layer base {
   html {
     background-color: var(--bg);
