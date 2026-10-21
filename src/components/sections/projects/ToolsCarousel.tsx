@@ -1,18 +1,23 @@
 import { PausableMarquee } from "@/components/motion/PausableMarquee";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { tools, ui, type Tool, type ToolIconId } from "@/data/content";
-import { plateInDark, toolIconSvg } from "./toolIcons";
+import { toolIcon } from "./toolIcons";
+
+// Heading id that also names the logo list
+const TITLE_ID = "tecnologias-title";
 
 // Only tools with an icon appear in the carousel
 const items = tools.flatMap((group) => group.items).filter((tool): tool is Tool & { icons: ToolIconId[] } => Boolean(tool.icons));
 
-// Full-color logo; dark ones sit on a light tile in dark mode without changing layout
+// Full-color logo; dark parts follow --logo-ink through currentColor
 function Logo({ id, copy }: { id: ToolIconId; copy: number }) {
-  const plate = plateInDark.has(id) ? "dark:-m-1 dark:bg-logo-plate dark:p-1" : "";
+  const { svg, className, style } = toolIcon(id, `tool${copy}`);
   return (
-    <span className={`inline-flex shrink-0 rounded-lg ${plate}`}>
-      <span className="block size-8 [&>svg]:size-full" dangerouslySetInnerHTML={{ __html: toolIconSvg(id, `tool${copy}`) }} />
-    </span>
+    <span
+      className={`block size-8 shrink-0 [&>svg]:size-full ${className}`}
+      style={style}
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
   );
 }
 
@@ -21,7 +26,7 @@ function LogoRow({ copy }: { copy: number }) {
   const duplicate = copy > 0;
   return (
     <ul
-      aria-label={duplicate ? undefined : ui.toolsLabel}
+      aria-labelledby={duplicate ? undefined : TITLE_ID}
       aria-hidden={duplicate || undefined}
       className={`flex shrink-0 items-center gap-16 pr-16 motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-8 motion-reduce:pr-0 ${duplicate ? "motion-reduce:hidden" : ""}`}
     >
@@ -43,10 +48,14 @@ function LogoRow({ copy }: { copy: number }) {
   );
 }
 
-// Endless full-color logo carousel; pauses on hover, static with reduced motion
+// Titled, endless full-color logo carousel; pauses on hover, static with reduced motion
 export function ToolsCarousel() {
   return (
     <ScrollReveal amount={0.2}>
+      <h3 id={TITLE_ID} className="font-display text-lead font-bold">
+        {ui.toolsTitle}
+      </h3>
+      <p className="mt-1 mb-8 text-ink-muted">{ui.toolsIntro}</p>
       <PausableMarquee>
         <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:w-auto motion-reduce:animate-none">
           <LogoRow copy={0} />

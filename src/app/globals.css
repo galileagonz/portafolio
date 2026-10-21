@@ -31,6 +31,8 @@
   --lila-soft: #ede6ff;
   --accent-text: #4c2a9e;
   --shadow-color: #1e1433;
+  /* Dark parts of tech logos, recolored per theme */
+  --logo-ink: #1e1433;
   --focus: #7c4dff;
 
   /* Accents are shared by both themes */
@@ -41,8 +43,6 @@
   --lila-light: #cbb8ff;
   --on-accent: #1e1433;
   --on-violet: #ffffff;
-  /* Light tile behind dark tech logos in dark mode */
-  --logo-plate: #ffffff;
 }
 
 /* Dark theme tokens, shared by system preference and manual choice */
@@ -58,6 +58,7 @@
     --lila-soft: #2a2050;
     --accent-text: #b79cff;
     --shadow-color: #b79cff;
+    --logo-ink: #f4f0ff;
     --focus: #ffd84d;
   }
 }
@@ -73,6 +74,7 @@
   --lila-soft: #2a2050;
   --accent-text: #b79cff;
   --shadow-color: #b79cff;
+  --logo-ink: #f4f0ff;
   --focus: #ffd84d;
 }
 
@@ -90,7 +92,7 @@
   --color-lila-light: var(--lila-light);
   --color-on-accent: var(--on-accent);
   --color-on-violet: var(--on-violet);
-  --color-logo-plate: var(--logo-plate);
+  --color-logo-ink: var(--logo-ink);
 
   --font-display: var(--font-syne);
   --font-sans: var(--font-dm-sans);
