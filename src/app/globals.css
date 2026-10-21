@@ -41,6 +41,8 @@
   --lila-light: #cbb8ff;
   --on-accent: #1e1433;
   --on-violet: #ffffff;
+  /* Light tile behind dark tech logos in dark mode */
+  --logo-plate: #ffffff;
 }
 
 /* Dark theme tokens, shared by system preference and manual choice */
@@ -88,6 +90,7 @@
   --color-lila-light: var(--lila-light);
   --color-on-accent: var(--on-accent);
   --color-on-violet: var(--on-violet);
+  --color-logo-plate: var(--logo-plate);
 
   --font-display: var(--font-syne);
   --font-sans: var(--font-dm-sans);

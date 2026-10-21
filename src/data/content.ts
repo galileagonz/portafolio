@@ -72,9 +72,11 @@ export type Project = ProjectImage & {
   published?: boolean;
 };
 
-// simple-icons available in the installed package; mapped in toolIcons.ts
+// Logos available in devicon (or simple-icons fallback); mapped in toolIcons.ts
 export type ToolIconId =
   | "python"
+  | "java"
+  | "vscode"
   | "typescript"
   | "kotlin"
   | "php"
@@ -230,7 +232,7 @@ export const contactSection = {
 // Draft copy for the about section; rewrite freely
 export const about: About = {
   paragraphs: [
-    "Me encanta ver cómo una idea se convierte en algo que la gente puede usar. Disfruto cada parte del camino: pensar la base de datos, darle forma a la interfaz y dejarlo todo funcionando en producción.",
+    "Me encanta ver cómo una idea se convierte en algo que la gente puede usar. Disfruto cada parte del camino: pensar la arquitectura, conectar el backend con la interfaz y dejarlo todo funcionando en producción.",
     "Creo que la buena tecnología se siente sencilla, y trabajo para que cada proyecto se sienta así. Siempre estoy aprendiendo algo nuevo y me emociona colaborar con personas que quieren construir cosas útiles.",
   ],
   highlight: "la buena tecnología se siente sencilla",
@@ -252,7 +254,7 @@ export const experience: Experience[] = [
       "Construyo funcionalidades de frontend y backend, de la idea al despliegue.",
       "Pongo sitios y servicios en producción en servidores propios (VPS): dominios, SSL y DNS.",
       "Trabajo en equipo con Git y ramas, con entregas a plazos cortos y medianos.",
-      "Documento procesos técnicos en Markdown para que el equipo avance más rápido.",
+      "Documento procesos técnicos para que el equipo avance más rápido.",
     ],
   },
 ];
@@ -265,7 +267,7 @@ export const projects: Project[] = [
       "Agencia digital que ayuda a los negocios a destacar en línea con sitios web, apps, automatización, publicidad y SEO.",
     image: "/images/Varsa Studio.png",
     imageAlt: "Página de inicio del sitio de Varsa Studio",
-    metric: { value: "4.6k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
+    metric: { value: "4.6k", label: "visitas/mes", source: "según Cloudflare, últimos 30 días" },
     links: { site: { url: "https://varsastudio.com/", label: "Ver sitio" } },
   },
   {
@@ -275,7 +277,7 @@ export const projects: Project[] = [
       "Marketplace que conecta a dueños de propiedades con productoras y creadores de contenido que buscan locaciones únicas para grabaciones y eventos.",
     image: "/images/Lucid_Locations.png",
     imageAlt: "Página de inicio del sitio de Lucid Locations",
-    metric: { value: "5.9k", label: "visitas/mes (aprox.)", source: "Cloudflare, últimos 30 días" },
+    metric: { value: "5.9k", label: "visitas/mes", source: "según Cloudflare, últimos 30 días" },
     links: { site: { url: "https://lucidlocations.com/", label: "Ver sitio" } },
   },
   {
@@ -307,7 +309,7 @@ export const tools: ToolGroup[] = [
     category: "Lenguajes",
     items: [
       { name: "Python", icons: ["python"] },
-      { name: "Java" },
+      { name: "Java", icons: ["java"] },
       { name: "TypeScript / JavaScript", icons: ["typescript"] },
       { name: "Kotlin", icons: ["kotlin"] },
       { name: "PHP", icons: ["php"] },
@@ -339,7 +341,7 @@ export const tools: ToolGroup[] = [
       { name: "MySQL Workbench", icons: ["mysql"] },
       { name: "Power BI" },
       { name: "Postman", icons: ["postman"] },
-      { name: "Visual Studio Code" },
+      { name: "Visual Studio Code", icons: ["vscode"] },
       { name: "Android Studio", icons: ["androidstudio"] },
     ],
   },

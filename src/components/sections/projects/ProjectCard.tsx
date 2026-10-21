@@ -98,11 +98,14 @@ export function ProjectCard({ project, hasImage }: { project: Project; hasImage:
         <h3 className="font-display text-title font-bold">{title}</h3>
         <p className="mt-2 text-ink-muted">{description}</p>
 
+        {/* Source only as a tooltip and for screen readers */}
         {metric && (
-          <div className="mt-5">
+          <div className="mt-5" title={metric.source}>
             <p className="font-display text-title font-bold">{metric.value}</p>
-            <p className="text-ink-muted">{metric.label}</p>
-            <p className="mt-1 text-label tracking-normal text-ink-muted">{metric.source}</p>
+            <p className="text-ink-muted">
+              {metric.label}
+              <span className="sr-only"> {metric.source}</span>
+            </p>
           </div>
         )}
 

@@ -140,7 +140,7 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
 
             <nav aria-label={ui.navLabel} className="relative mt-10 flex-1">
               <motion.ul variants={list} initial="hidden" animate="visible">
-                {sections.map((section, i) => {
+                {sections.map((section) => {
                   const isActive = active === section.id;
                   return (
                     <li key={section.id}>
@@ -151,9 +151,6 @@ export function MobileMenu({ open, onClose, active, returnFocusTo }: MobileMenuP
                         aria-current={isActive ? "location" : undefined}
                         className="group flex items-baseline gap-3 rounded-2xl py-1 font-display text-menu font-extrabold"
                       >
-                        <span className="w-7 shrink-0 font-mono text-label font-bold text-ink-muted">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
                         <SlideText text={section.label} />
                         {isActive && <Star className="size-6 shrink-0 self-center text-sun" points={5} outlined />}
                       </motion.a>
